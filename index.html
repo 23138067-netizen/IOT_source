@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>IOT Power Source — Synchronized Multi-Admin Workspace</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0284c7">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IOT Power Source">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<style>
+:root {
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --panel2: #f1f5f9;
+  --line: #e2e8f0;
+  --line-soft: #f1f5f9;
+  --amber: #d97706;
+  --amber-soft: #fef3c7;
+  --cyan: #0284c7;
+  --cyan-soft: #e0f2fe;
+  --red: #e11d48;
+  --red-soft: #ffe4e6;
+  --purple: #7c3aed;
+  --purple-soft: #f3e8ff;
+  --teal: #0d9488;
+  --teal-soft: #f0fdfa;
+  --green: #059669;
+  --green-soft: #d1fae5;
+  --text: #0f172a;
+  --muted: #64748b;
+  --muted-dim: #94a3b8;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; touch-action: manipulation; }
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+body { display: flex; flex-direction: column; min-height: 100%; overflow-x: hidden; }
+
+#login { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.login-card { width: 100%; max-width: 380px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.brand-logo { width: 32px; height: 32px; background: url("data:image/png;base64,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") no-repeat center / contain; flex: none; filter: drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4)); display: inline-block; }
+.brand-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #38bdf8, #fbbf24); flex: none; }
+.brand-name { font-weight: 700; font-size: 18px; color: var(--text); }
+.login-sub { color: var(--muted); font-size: 13px; margin: 0 0 24px; }
+label { display: block; font-size: 12px; color: var(--muted); margin: 14px 0 6px; font-weight: 500; }
+input[type=text], input[type=password], input[type=number], select { width: 100%; min-height: 42px; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 9px 12px; font-size: 14px; font-family: var(--sans); outline: none; }
+input:focus, select:focus { border-color: var(--cyan); }
+.btn { cursor: pointer; border: none; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; font-family: var(--sans); transition: background .15s, transform .1s ease, filter .15s ease; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--cyan); color: #ffffff; width: 100%; margin-top: 20px; }
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-accent { background: var(--amber-soft); color: var(--amber); border: 1px solid #fde68a; }
+.btn-accent:hover { background: #fde68a; }
+.btn-danger { background: var(--red-soft); color: var(--red); border: 1px solid #fecdd3; }
+.btn-danger:hover { background: #fecdd3; }
+.btn-pin { background: var(--cyan-soft); color: var(--cyan); border: 1px solid var(--cyan); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+.btn-pin.pinned { background: var(--amber); color: #ffffff; border-color: var(--amber); }
+
+.btn-pwa-install { background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25); transition: all 0.2s ease; }
+.btn-pwa-install:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-pwa-install:active { transform: scale(0.96); }
+
+.err { color: var(--red); font-size: 12px; min-height: 16px; margin-top: 8px; }
+
+#app { display: none; flex: 1; flex-direction: column; min-height: 100%; }
+header { display: flex; align-items: center; gap: 16px; padding: 12px 24px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; z-index: 10; }
+nav { display: flex; gap: 6px; margin-left: 12px; }
+nav button { background: transparent; border: 1px solid transparent; color: var(--muted); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .2s; }
+nav button.active { background: var(--panel2); color: var(--text); border-color: var(--line); font-weight: 600; }
+nav button.disabled { pointer-events: none !important; opacity: 0.35 !important; cursor: not-allowed !important; }
+
+.spacer { flex: 1; }
+.who { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+.dot.offline { background: var(--muted-dim); }
+.logout { background: transparent; border: 1px solid var(--line); color: var(--muted); border-radius: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes livePulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+@keyframes toastSlideIn {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+main { flex: 1; padding: 24px; max-width: 1280px; width: 100%; margin: 0 auto; position: relative; }
+.page { display: none; }
+.page.active { display: block; animation: pageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+h1.page-title { font-size: 20px; margin: 0 0 4px; font-weight: 700; color: var(--text); }
+.page-sub { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+
+/* --- GRADIENT HERO FRAMES CHO TỪNG TAB --- */
+.tab-hero-card { margin-bottom: 20px; border-radius: 14px; padding: 18px 22px; box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04); transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
+.tab-hero-card:hover { box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07); }
+.tab-hero-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.tab-hero-title { margin: 0 0 4px; font-size: 19px; font-weight: 700; letter-spacing: -0.3px; }
+.tab-hero-sub { margin: 0; font-size: 13px; line-height: 1.4; }
+
+/* Tab 1: Menu - Sapphire Indigo Gradient */
+.hero-menu { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 45%, #ede9fe 100%); border: 1px solid #c7d2fe; }
+.hero-menu .tab-hero-title { color: #312e81; }
+.hero-menu .tab-hero-sub { color: #4338ca; }
+
+/* Tab 2: Giám sát & Điều khiển - Ocean Cyan Gradient */
+.hero-control { background: linear-gradient(135deg, #ecfeff 0%, #cffafe 45%, #e0f2fe 100%); border: 1px solid #a5f3fc; }
+.hero-control .tab-hero-title { color: #0e7490; }
+.hero-control .tab-hero-sub { color: #0369a1; }
+
+/* Tab 3: Auto-Tuning - Radiant Violet Gradient */
+.hero-autotune { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 45%, #fae8ff 100%); border: 1px solid #e9d5ff; }
+.hero-autotune .tab-hero-title { color: #6b21a8; }
+.hero-autotune .tab-hero-sub { color: #7e22ce; }
+
+/* Tab 4: Báo cáo & Lịch sử - Fresh Emerald Gradient */
+.hero-history { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 45%, #ecfdf5 100%); border: 1px solid #bbf7d0; }
+.hero-history .tab-hero-title { color: #14532d; }
+.hero-history .tab-hero-sub { color: #15803d; }
+
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.g5 { grid-template-columns: repeat(5, 1fr); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+.card h3 { margin: 0 0 14px; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+
+.admin-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; transition: all 0.2s ease; }
+.admin-card.online { border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.05); }
+.admin-card.self { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan-soft); }
+.admin-info-left { display: flex; align-items: center; gap: 10px; }
+.admin-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.admin-card.online .admin-avatar { background: var(--green-soft); color: var(--green); border-color: rgba(16, 185, 129, 0.3); }
+.admin-status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; }
+.admin-status-badge.online { background: var(--green-soft); color: var(--green); }
+.admin-status-badge.offline { background: var(--panel); color: var(--muted); border: 1px solid var(--line); }
+
+.mode-card { cursor: pointer; transition: border-color .15s; }
+.mode-card:hover { border-color: var(--cyan); }
+.mode-card.selected { border-color: var(--cyan); background: var(--cyan-soft); }
+.mode-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--panel2); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 16px; }
+.mode-card.selected .mode-icon { background: #ffffff; color: var(--cyan); }
+.mode-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.mode-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.field-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.field-row label { margin: 0; flex: none; width: 120px; color: var(--muted); font-size: 12px; font-weight: 600; }
+
+.readout { text-align: center; padding: 14px 8px; border-radius: 12px; border: 1px solid transparent; transition: all 0.2s ease; }
+.readout:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+.readout .val { font-family: var(--mono); font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
+.readout .unit { font-size: 12px; color: var(--muted); margin-left: 2px; font-weight: 500; }
+.readout .lbl { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.readout.v { background: var(--cyan-soft); border-color: rgba(2, 132, 199, 0.25); } .readout.v .val { color: var(--cyan); }
+.readout.i { background: var(--amber-soft); border-color: rgba(217, 119, 6, 0.25); } .readout.i .val { color: var(--amber); }
+.readout.p { background: var(--green-soft); border-color: rgba(22, 163, 74, 0.25); } .readout.p .val { color: var(--green); }
+.readout.fb { background: var(--teal-soft); border-color: rgba(13, 148, 136, 0.3); } .readout.fb .val { color: var(--teal); }
+.readout.t { background: var(--red-soft); border-color: rgba(220, 38, 38, 0.25); } .readout.t .val { color: var(--red); }
+
+.pwm-slider-row { display: flex; align-items: center; gap: 16px; margin: 6px 0; }
+.pwm-value { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--cyan); min-width: 65px; text-align: right; }
+.btn-preset { background: var(--panel2); border: 1px solid var(--line); color: var(--text); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; font-family: var(--mono); }
+.btn-preset:hover { background: var(--cyan-soft); border-color: var(--cyan); color: var(--cyan); }
+.btn-preset:active { transform: scale(0.95); }
+
+.status-pill { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+.status-pill.on { background: var(--green-soft); color: var(--green); }
+.status-pill.alarm { background: var(--red-soft); color: var(--red); }
+
+.chart-card { padding: 18px; position: relative; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.chart-card:hover { border-color: var(--cyan); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); }
+.chart-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.chart-head h3 { margin: 0; }
+.chart-zoom-hint { font-size: 10px; color: var(--muted-dim); font-weight: 500; display: block; margin-top: 3px; }
+.chart-range { font-size: 11px; color: var(--muted-dim); font-family: var(--mono); }
+
+.chart-gear-btn { background: var(--panel2); border: 1px solid var(--line); color: var(--muted); border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; }
+.chart-gear-btn:hover { background: var(--line); color: var(--text); transform: rotate(45deg); }
+
+.chart-menu-popover { position: absolute; top: 40px; right: 18px; width: 240px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 12px; z-index: 100; display: none; flex-direction: column; gap: 8px; font-size: 12px; cursor: default; }
+.chart-menu-popover.show { display: flex; }
+.menu-title { font-weight: 700; color: var(--text); border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.menu-sub-title { font-weight: 600; color: var(--muted); margin-top: 4px; font-size: 11px; text-transform: uppercase; }
+.menu-opt { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text); font-weight: 500; }
+
+svg.chart { width: 100%; height: auto; aspect-ratio: 700 / 220; display: block; }
+svg.chart text { font-family: var(--mono); fill: var(--muted); }
+.chart-legend { display: flex; gap: 16px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend i { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; width: 100%; max-width: 960px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; animation: modalZoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes modalZoomIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--panel2); }
+.modal-head h2 { margin: 0; font-size: 16px; font-weight: 700; color: var(--text); }
+.btn-close-modal { background: var(--panel); border: 1px solid var(--line); color: var(--muted); width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; font-weight: bold; }
+.btn-close-modal:hover { background: var(--red-soft); color: var(--red); border-color: var(--red); }
+.modal-body { padding: 20px; flex: 1; overflow-y: auto; max-height: 70vh; }
+.modal-foot { padding: 10px 20px; background: var(--panel2); border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+
+.file-drawer { position: fixed; top: 0; right: 0; width: 40%; height: 100vh; background: var(--panel); border-left: 1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.15); z-index: 2500; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+.file-drawer.open { transform: translateX(0); }
+
+.btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 500; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+.btn-ghost:hover { background: var(--panel2); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; max-height: 380px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; background: var(--panel2); }
+tr:hover td { background: var(--panel2); }
+.tag { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+.tag.login { background: var(--cyan-soft); color: var(--cyan); }
+.tag.action { background: var(--amber-soft); color: var(--amber); }
+.tag.alarm { background: var(--red-soft); color: var(--red); }
+
+.progress-bar-bg { width: 100%; height: 6px; background: var(--panel2); border-radius: 3px; overflow: hidden; margin: 12px 0; }
+.progress-bar-fill { height: 100%; width: 0%; background: var(--cyan); transition: width .3s; }
+
+.workspace-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1px solid #334155; color: #f8fafc; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12); }
+.workspace-banner span:first-child { display: flex; align-items: center; gap: 8px; color: #f8fafc; }
+.workspace-banner #lastActionText { color: #38bdf8; font-weight: 500; background: rgba(56, 189, 248, 0.12); padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.3); }
+
+#toastNotification { position: fixed; top: 16px; right: 16px; background: #0f172a; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 3000; display: none; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1); animation: toastSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+.control-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.live-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--green); background: var(--green-soft); padding: 4px 10px; border-radius: 20px; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: livePulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+
+.mobile-toggle-btn { display: none; background: var(--cyan-soft); color: var(--cyan); border: 1px solid var(--cyan); font-weight: 600; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+
+.control-layout { display: flex; gap: 0; width: 100%; position: relative; align-items: flex-start; transition: all 0.25s ease; }
+.monitor-main-area { flex: 1; width: 100%; min-width: 0; transition: all 0.25s ease; }
+
+.control-drawer-panel { width: 0; opacity: 0; visibility: hidden; transform: translateX(20px); transition: all 0.25s ease; flex-shrink: 0; overflow: hidden; }
+
+.control-layout.drawer-open .monitor-main-area { width: 65%; }
+.control-layout.drawer-open .control-drawer-panel {
+  width: 35%;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  padding-left: 16px;
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+
+.drawer-inner { width: 100%; min-width: 280px; }
+.drawer-title-bar { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .5px; margin-bottom: 12px; }
+
+.drawer-trigger-strip { position: fixed; top: 50%; right: 0; transform: translateY(-50%); width: 26px; height: 110px; z-index: 100; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.trigger-handle { background: var(--panel); border: 1px solid var(--line); border-right: none; border-radius: 10px 0 0 10px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all .2s ease; }
+.drawer-trigger-strip:hover .trigger-handle, .control-layout.drawer-open ~ .drawer-trigger-strip .trigger-handle { background: var(--cyan-soft); border-color: var(--cyan); color: var(--cyan); }
+.handle-icon { font-size: 12px; color: var(--cyan); transition: transform 0.2s; }
+.control-layout.drawer-open ~ .drawer-trigger-strip .handle-icon { transform: rotate(180deg); }
+.handle-text { writing-mode: vertical-rl; text-orientation: mixed; font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
+
+.report-grid-layout { display: block; width: 100%; }
+
+pre.json-code { background: var(--panel2); padding: 14px; border-radius: 8px; border: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--text); overflow-x: auto; white-space: pre; word-break: normal; margin: 0; height: 100%; }
+
+@media (max-width: 868px) {
+  header { padding: 10px 14px; gap: 10px; }
+  nav { width: 100%; order: 3; margin: 6px 0 0; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; padding-bottom: 2px; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { flex: none; white-space: nowrap; padding: 8px 12px; font-size: 12px; }
+  main { padding: 14px 10px; }
+  .g5 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .g5 .readout.t { grid-column: span 2; }
+  .mobile-toggle-btn { display: inline-flex; }
+  .drawer-trigger-strip { display: none; }
+  .control-layout { flex-direction: column; }
+  .control-layout.drawer-open .monitor-main-area { width: 100%; }
+  .control-drawer-panel { width: 100% !important; max-height: 0; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.25s ease; padding-left: 0 !important; margin-top: 0; overflow-y: auto; position: static !important; top: auto !important; }
+  .control-layout.drawer-open .control-drawer-panel { max-height: 85vh; opacity: 1; visibility: visible; transform: translateY(0); margin-top: 16px; position: static !important; top: auto !important; }
+  .drawer-inner { min-width: 100%; }
+  .file-drawer { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 10px 12px; gap: 8px; }
+  main { padding: 10px 8px; }
+  h1.page-title { font-size: 17px; }
+  .page-sub { font-size: 12px; margin-bottom: 12px; }
+  .workspace-banner { font-size: 11px; padding: 8px 10px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .g5 { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .g5 .readout.t { grid-column: span 2; }
+  .readout { padding: 10px 6px; }
+  .readout .val { font-size: 20px; }
+  .readout .lbl { font-size: 10px; }
+  .chart-card { padding: 14px 10px; }
+  svg.chart { aspect-ratio: 700 / 260; }
+  .chart-head h3 { font-size: 13px; }
+  .chart-range { font-size: 10px; }
+  .chart-legend { gap: 10px; font-size: 11px; margin-top: 8px; padding-top: 8px; }
+  .card { padding: 14px 12px; border-radius: 10px; }
+  .field-row { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 10px; }
+  .field-row label { width: 100%; }
+  .login-card { padding: 22px 18px; }
+  .modal-card { width: 95%; max-height: 90vh; }
+  .modal-head h2 { font-size: 15px; }
+  table { font-size: 11px; }
+  th, td { padding: 6px 4px; }
+  .btn { min-height: 38px; padding: 8px 12px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="toastNotification"><span>⚡</span><span id="toastMsg">Thông báo thao tác</span></div>
+
+<div id="login">
+  <div class="login-card">
+    <div class="brand" style="margin-bottom:14px; gap:12px; align-items:center">
+      <div class="brand-logo" style="width:46px;height:46px"></div>
+      <div>
+        <div class="brand-name" style="font-size:20px; font-weight:800; letter-spacing:-0.3px">IOT Power Source</div>
+        <div style="font-size:11px; color:var(--muted); font-weight:600">Smart Pulse Power Workspace</div>
+      </div>
+    </div>
+    <label>Tên đăng nhập (admin1..admin4)</label>
+    <input type="text" id="u" value="admin1" placeholder="admin1">
+    <label>Mật khẩu (1..4)</label>
+    <input type="password" id="p" value="1" placeholder="1">
+    <button class="btn btn-primary" onclick="doLogin()">Đăng nhập SSE Workspace</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <div class="brand" style="gap:10px; align-items:center">
+      <div class="brand-logo" style="width:28px;height:28px"></div>
+      <div class="brand-name" style="font-weight:800; letter-spacing:-0.2px">IOT Power Source</div>
+    </div>
+    <nav id="topNav">
+      <button data-page="menu" onclick="showPage('menu')">Menu</button>
+      <button data-page="control" onclick="showPage('control')">Giám sát &amp; Điều khiển</button>
+      <button data-page="autotune" onclick="showPage('autotune')">Auto-Tuning</button>
+      <button data-page="history" onclick="showPage('history')">Báo cáo &amp; Lịch sử</button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="who">
+      <span class="dot" id="hwDot"></span> <span id="hwStatusText">Pico W</span>
+    </div>
+    <button class="logout" onclick="doLogout()">Đăng xuất</button>
+  </header>
+
+  <main>
+    <div class="workspace-banner" id="workspaceBanner">
+      <span>⚡ Giao diện giám sát điều khiển bộ nguồn xung kéo đẩy 0-15V</span>
+      <span id="lastActionText" style="font-weight:500">Thao tác gần nhất: Khởi tạo</span>
+    </div>
+
+    <section class="page" id="page-menu">
+      <div class="tab-hero-card hero-menu">
+        <div class="tab-hero-content">
+          <div>
+            <h1 class="tab-hero-title">⚙️ Trung tâm Quản trị &amp; Cấu hình Hệ thống</h1>
+            <p class="tab-hero-sub">Giám sát các phiên Admin, thiết lập ngưỡng bảo vệ vi điều khiển và cấu hình thông số an toàn</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <span class="badge-chip" style="background:#ffffff; color:#3730a3; border:1px solid #c7d2fe; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.04)">🚀 Pico W (RP2040)</span>
+            <span class="badge-chip" style="background:#ffffff; color:#6b21a8; border:1px solid #e9d5ff; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.04)">⚡ Push-Pull 20kHz</span>
+            <span class="badge-chip" style="background:#ffffff; color:#15803d; border:1px solid #bbf7d0; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.04)">🛡️ RTOS Protection</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px">
+          <div>
+            <h3 style="margin:0 0 4px">Trạng thái Quản trị viên (Admins Online / Offline)</h3>
+            <p style="font-size:12px; color:var(--muted); margin:0">Giám sát các phiên Admin đang kết nối điều khiển thời gian thực</p>
+          </div>
+          <div id="onlineAdminCount" style="font-size:11px; font-weight:700; color:var(--green); background:var(--green-soft); padding:4px 10px; border-radius:20px">
+            0/4 Online
+          </div>
+        </div>
+        <div class="grid g4" id="adminStatusGrid"></div>
+      </div>
+
+
+      <div class="grid g2" style="margin-bottom:20px">
+        <div class="card" style="border:1px solid rgba(245, 158, 11, 0.25)">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+            <h3 style="margin:0">🛡️ Giới hạn bảo vệ &amp; Ngưỡng an toàn</h3>
+            <span class="tag action" style="font-size:10px">Có thể cấu hình</span>
+          </div>
+          <div class="field-row">
+            <label>Nhiệt độ ngắt max (°C)</label>
+            <div style="display:flex; align-items:center; gap:8px; width:100%">
+              <input type="number" id="cfgMaxTemp" value="75.0" min="30" max="85" step="0.5" style="font-family:var(--mono); font-weight:700">
+              <span style="font-size:11px; color:var(--muted); white-space:nowrap">(30–85°C)</span>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Duty Cycle max (%)</label>
+            <div style="display:flex; align-items:center; gap:8px; width:100%">
+              <input type="number" id="cfgMaxDuty" value="40.0" min="5" max="45" step="0.5" style="font-family:var(--mono); font-weight:700">
+              <span style="font-size:11px; color:var(--muted); white-space:nowrap">(5–45%)</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:14px">
+            <button class="btn btn-primary" style="margin:0; flex:1" onclick="applyProtectionLimits()">💾 Lưu Giới Hạn Bảo Vệ</button>
+            <button class="btn btn-ghost" style="margin:0" onclick="resetDefaultLimits()" title="Khôi phục mặc định 75°C / 40%">↺ Mặc định</button>
+          </div>
+          <div style="font-size:11px; color:var(--muted); margin-top:10px; line-height:1.4">
+            * Khi nhiệt độ vượt ngưỡng hoặc Duty chạm trần, hệ thống tự động ngắt xung về 0% và kích hoạt cảnh báo tức thì.
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+            <h3 style="margin:0">📡 Thông số kết nối &amp; Khóa an toàn</h3>
+            <span class="tag login" style="font-size:10px">Thông số chuẩn</span>
+          </div>
+          <div class="field-row"><label>Giao thức truyền</label><input type="text" value="Server-Sent Events (SSE PUSH 100ms)" readonly></div>
+          <div class="field-row"><label>Cơ chế khóa quyền</label><input type="text" value="Ưu tiên người thao tác 1.2s (chống giật ô)" readonly></div>
+          <div class="field-row"><label>Giám sát bám áp</label><input type="text" value="Tự động ngắt khi Vout không tăng / sự cố tải" readonly></div>
+          <div class="field-row"><label>Hồi tiếp điện áp</label><input type="text" value="Cầu phân áp 11:1 (GP26) + VBUS INA226" readonly></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 12px">🔌 Tổng quan kiến trúc phần cứng bộ nguồn</h3>
+        <div class="grid g4" style="gap:12px">
+          <div style="background:var(--panel2); padding:10px 12px; border-radius:8px; border:1px solid var(--line)">
+            <div style="font-size:11px; color:var(--muted)">Tần số PWM Push-Pull</div>
+            <div style="font-size:14px; font-weight:700; color:var(--cyan); margin-top:4px">20.0 kHz</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px">TC4427 Driver (GP14/GP15)</div>
+          </div>
+          <div style="background:var(--panel2); padding:10px 12px; border-radius:8px; border:1px solid var(--line)">
+            <div style="font-size:11px; color:var(--muted)">Vi điều khiển</div>
+            <div style="font-size:14px; font-weight:700; color:var(--teal); margin-top:4px">RP2040 PIO SM0</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px">Clock 100 MHz Hardware</div>
+          </div>
+          <div style="background:var(--panel2); padding:10px 12px; border-radius:8px; border:1px solid var(--line)">
+            <div style="font-size:11px; color:var(--muted)">Cảm biến Dòng &amp; Công suất</div>
+            <div style="font-size:14px; font-weight:700; color:var(--amber); margin-top:4px">INA226 (I2C 0x40)</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px">Shunt 0.1Ω · VBUS 1.25mV/LSB</div>
+          </div>
+          <div style="background:var(--panel2); padding:10px 12px; border-radius:8px; border:1px solid var(--line)">
+            <div style="font-size:11px; color:var(--muted)">Màn hình hiển thị tại chỗ</div>
+            <div style="font-size:14px; font-weight:700; color:var(--green); margin-top:4px">SSD1306 128x64</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:2px">I2C0 (0x3C) 400kHz Live Scope</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-control">
+      <div class="tab-hero-card hero-control">
+        <div class="tab-hero-content">
+          <div>
+            <h1 class="tab-hero-title">⚡ Giám sát Thời gian thực &amp; Điều khiển</h1>
+            <p class="tab-hero-sub">Chế độ vận hành: <strong id="currentModeLabel" style="font-weight:700">MANUAL</strong> | Hệ thống Push-Pull 0–15V 20kHz</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+            <button class="mobile-toggle-btn" onclick="toggleControlDrawer()">🎛️ Bảng điều khiển</button>
+            <div class="live-indicator" style="background:#ffffff; border:1px solid #a5f3fc; box-shadow:0 1px 3px rgba(0,0,0,0.04)">
+              <span class="live-dot"></span> OSCILLOSCOPE LIVE
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-layout" id="controlLayout">
+        <div class="monitor-main-area">
+          <div class="grid g5" style="margin-bottom:16px">
+            <div class="card readout v"><div class="val" id="rVolt">0.00<span class="unit">V</span></div><div class="lbl">⚡ Điện áp ra</div></div>
+            <div class="card readout i"><div class="val" id="rCurr">0.00<span class="unit">A</span></div><div class="lbl">🔋 Dòng điện tải</div></div>
+            <div class="card readout p"><div class="val" id="rPower">0.0<span class="unit">W</span></div><div class="lbl">💡 Công suất tải</div></div>
+            <div class="card readout fb"><div class="val" id="rFb">0.00<span class="unit">V</span></div><div class="lbl">📡 Hồi tiếp ADC</div></div>
+            <div class="card readout t"><div class="val" id="rTemp">25.0<span class="unit">°C</span></div><div class="lbl">🌡️ Nhiệt độ MCU</div></div>
+          </div>
+
+          <div class="grid chart-row">
+            <div class="card chart-card" onclick="handleChartCardClick(event, 'v')">
+              <div class="chart-head" style="position:relative">
+                <div>
+                  <h3 id="chartVTitle">Đồ thị Điện áp ngõ ra</h3>
+                  <span class="chart-zoom-hint">🔍 Nhấn vào đồ thị để phóng to</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span class="chart-range" id="chartVRange">V: 0–15V</span>
+                  <button class="chart-gear-btn" onclick="toggleChartMenu(event, 'v')" title="Cài đặt hiển thị">⚙️</button>
+                </div>
+
+                <div class="chart-menu-popover" id="chartVMenu" onclick="event.stopPropagation()">
+                  <div class="menu-title">Cấu hình hiển thị</div>
+                  <label class="menu-opt"><input type="checkbox" id="vGridCheck" checked onchange="updateChartConfig('v')"> Hiển thị khung lưới (Grid)</label>
+                  <label class="menu-opt"><input type="checkbox" id="vLabelCheck" checked onchange="updateChartConfig('v')"> Hiển thị nhãn giá trị (Labels)</label>
+                  <div class="menu-sub-title">Chọn tín hiệu hiển thị:</div>
+                  <label class="menu-opt"><input type="checkbox" id="vShowV" checked onchange="updateChartConfig('v')"> <span style="color:var(--cyan)">■</span> Điện áp ngõ ra (V)</label>
+                  <label class="menu-opt"><input type="checkbox" id="vShowI" onchange="updateChartConfig('v')"> <span style="color:var(--amber)">■</span> Dòng điện (A)</label>
+                  <label class="menu-opt"><input type="checkbox" id="vShowP" onchange="updateChartConfig('v')"> <span style="color:var(--green)">■</span> Công suất (W)</label>
+                </div>
+              </div>
+
+              <svg class="chart" id="chartVSvg" viewBox="0 0 700 220" preserveAspectRatio="none">
+                <g id="vGridGroup"></g>
+                <path id="vPath" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round"/>
+                <path id="iPath" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"/>
+                <path id="pPath" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"/>
+                <g id="vLabelsGroup"></g>
+              </svg>
+              <div class="chart-legend" id="vChartLegend">
+                <span><i style="background:var(--cyan)"></i>Điện áp ra Vout</span>
+              </div>
+            </div>
+
+            <div class="card chart-card" onclick="handleChartCardClick(event, 'pwm')">
+              <div class="chart-head" style="position:relative">
+                <div>
+                  <h3 id="chartPwmTitle">Dạng xung PWM GP14 &amp; GP15 (Oscilloscope)</h3>
+                  <span class="chart-zoom-hint">🔍 Nhấn vào đồ thị để phóng to</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span class="chart-range" id="chartPwmRange">Trigger Edge · Logic 0-3.3V</span>
+                  <button class="chart-gear-btn" onclick="toggleChartMenu(event, 'pwm')" title="Cài đặt hiển thị">⚙️</button>
+                </div>
+
+                <div class="chart-menu-popover" id="chartPwmMenu" onclick="event.stopPropagation()">
+                  <div class="menu-title">Cấu hình Oscilloscope</div>
+                  <label class="menu-opt"><input type="checkbox" id="pwmGridCheck" checked onchange="updateChartConfig('pwm')"> Hiển thị khung lưới (Grid)</label>
+                  <label class="menu-opt"><input type="checkbox" id="pwmLabelCheck" checked onchange="updateChartConfig('pwm')"> Hiển thị nhãn số liệu (Labels)</label>
+                  <div class="menu-sub-title">Chọn kênh xung:</div>
+                  <label class="menu-opt"><input type="checkbox" id="pwmShowA" checked onchange="updateChartConfig('pwm')"> <span style="color:var(--amber)">■</span> Phase A (GP14)</label>
+                  <label class="menu-opt"><input type="checkbox" id="pwmShowB" checked onchange="updateChartConfig('pwm')"> <span style="color:var(--cyan)">■</span> Phase B (GP15)</label>
+                </div>
+              </div>
+
+              <svg class="chart" id="chartPwmSvg" viewBox="0 0 700 240" preserveAspectRatio="none">
+                <g id="pwmGridGroup"></g>
+                <path id="pwmPathA" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linejoin="bevel" stroke-linecap="square"/>
+                <path id="pwmPathB" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linejoin="bevel" stroke-linecap="square"/>
+                <g id="pwmLabelsGroup"></g>
+              </svg>
+              <div class="chart-legend" id="pwmChartLegend">
+                <span><i style="background:var(--amber)"></i>Phase A (GP14)</span>
+                <span><i style="background:var(--cyan)"></i>Phase B (GP15)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-drawer-panel" id="controlDrawer">
+          <div class="drawer-inner">
+            <div class="drawer-title-bar">
+              <span>BẢNG ĐIỀU KHIỂN</span>
+              <button class="btn-pin" id="pinDrawerBtn" onclick="togglePinDrawer()" title="Bấm để Ghim/Cố định Bảng điều khiển">📌 Ghim Bảng Điều Khiển</button>
+            </div>
+
+            <div class="card" style="margin-bottom:16px">
+              <h3>Bám áp tự động (AUTO_V)</h3>
+              <div class="field-row"><label>Điện áp đặt (V)</label><input type="number" id="setV" value="0.0" min="0" max="15" step="0.1"></div>
+              <div class="pwm-slider-row">
+                <div class="pwm-value" id="vSliderVal" style="color:var(--cyan)">0.0<span class="unit">V</span></div>
+              </div>
+              <div class="preset-row">
+                <button class="btn-preset" onclick="setQuickV(3.3)">3.3V</button>
+                <button class="btn-preset" onclick="setQuickV(5.0)">5.0V</button>
+                <button class="btn-preset" onclick="setQuickV(9.0)">9.0V</button>
+                <button class="btn-preset" onclick="setQuickV(12.0)">12.0V</button>
+                <button class="btn-preset" onclick="setQuickV(15.0)">15.0V</button>
+              </div>
+              <div>
+                <button class="btn btn-primary" style="margin:0; width:100%" onclick="applySetpoint()">Xác nhận V_target</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Mức xung trực tiếp (Duty Cycle)</h3>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="sliderStatusHint">Nhập Duty Cycle (0 - 40%) rồi bấm Xác nhận</div>
+              <div class="field-row"><label>Duty đặt (%)</label><input type="number" id="pwmInput" value="0.00" min="0" max="40" step="0.25"></div>
+              <div class="pwm-slider-row">
+                <div class="pwm-value" id="pwmValue">0.00<span class="unit">%</span></div>
+              </div>
+              <div class="preset-row">
+                <button class="btn-preset" onclick="setQuickDuty(0)">0%</button>
+                <button class="btn-preset" onclick="setQuickDuty(10)">10%</button>
+                <button class="btn-preset" onclick="setQuickDuty(20)">20%</button>
+                <button class="btn-preset" onclick="setQuickDuty(30)">30%</button>
+                <button class="btn-preset" onclick="setQuickDuty(40)">40%</button>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:4px">
+                <button class="btn btn-primary" style="margin:0; width:100%" onclick="applyPwm()">Xác nhận Duty</button>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">
+                <span style="font-size:12px;color:var(--muted)">MCU Status</span>
+                <span class="status-pill on" id="systemStatus">BÌNH THƯỜNG</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                <span style="font-size:12px;color:var(--muted)">Cảm biến INA226</span>
+                <span class="status-pill on" id="inaStatusPill">KIỂM TRA...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-trigger-strip" id="drawerTriggerZone">
+        <div class="trigger-handle">
+          <span class="handle-icon">‹</span>
+          <span class="handle-text">ĐIỀU KHIỂN</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-autotune">
+      <div class="tab-hero-card hero-autotune">
+        <div class="tab-hero-content">
+          <div>
+            <h1 class="tab-hero-title">🎯 Auto-Tuning &amp; Bảng Tra LUT</h1>
+            <p class="tab-hero-sub">Tự động quét đặc tính tải triệt tiêu trễ (Tự động ngắt xung công suất trước khi quét)</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <span class="badge-chip" style="background:#ffffff; color:#7e22ce; border:1px solid #e9d5ff; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.04)">📊 Auto-Fit Realtime</span>
+            <span class="badge-chip" style="background:#ffffff; color:#0e7490; border:1px solid #a5f3fc; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.04)">⚡ Zero-Lag Calibration</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px; border:1px solid rgba(2, 132, 199, 0.25)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <h3 style="margin:0 0 4px; display:flex; align-items:center; gap:6px">🔄 Tiến trình quét thích nghi</h3>
+            <span style="font-size:12px;color:var(--muted)" id="autotuneStatusText">Sẵn sàng thực hiện</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button class="btn btn-accent" id="btnStartAutotune" onclick="startAutoTune()">⚡ Bắt đầu Quét</button>
+            <button class="btn btn-danger" id="btnStopAutotune" onclick="stopAutoTune()" style="display:none">🛑 Dừng Quét</button>
+          </div>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="autotuneProgress"></div></div>
+      </div>
+
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="card chart-card" onclick="handleChartCardClick(event, 'lut')">
+          <div class="chart-head" style="position:relative">
+            <div>
+              <h3 id="chartLutTitle">Đặc tính LUT (Duty vs Vout Auto-Fit Realtime)</h3>
+              <span class="chart-zoom-hint">🔍 Nhấn vào đồ thị để phóng to</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="chart-range" id="chartLutRange">Auto Scale</span>
+              <button class="chart-gear-btn" onclick="toggleChartMenu(event, 'lut')" title="Cài đặt hiển thị">⚙️</button>
+            </div>
+
+            <div class="chart-menu-popover" id="chartLutMenu" onclick="event.stopPropagation()">
+              <div class="menu-title">Cấu hình Đồ thị LUT</div>
+              <label class="menu-opt"><input type="checkbox" id="lutGridCheck" checked onchange="updateChartConfig('lut')"> Hiển thị khung lưới (Grid)</label>
+              <label class="menu-opt"><input type="checkbox" id="lutGuideCheck" checked onchange="updateChartConfig('lut')"> Hiển thị đường gióng điểm</label>
+              <label class="menu-opt"><input type="checkbox" id="lutLabelCheck" checked onchange="updateChartConfig('lut')"> Hiển thị nhãn tọa độ (Labels)</label>
+            </div>
+          </div>
+
+          <svg class="chart" id="chartLutSvg" viewBox="0 0 700 220" preserveAspectRatio="none">
+            <g id="lutGridGroup"></g>
+            <path id="lutPathUp" fill="none" stroke="var(--amber)" stroke-width="2.5"/>
+            <g id="lutLabelsGroup"></g>
+          </svg>
+          <div class="chart-legend" id="lutChartLegend">
+            <span><i style="background:var(--amber)"></i>Đường đặc tính LUT</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Cấu hình Quét &amp; Tập tin LUT</h3>
+          
+          <div class="field-row">
+            <label>Loại tải quét</label>
+            <select id="tunePresetSelect">
+              <option value="5:15" selected>Tải 5V (15 mẫu quét tối ưu 3.3V & 5V)</option>
+              <option value="9:15">Tải 9V (15 mẫu quét)</option>
+              <option value="12:20">Tải 12V (20 mẫu quét)</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <label>File LUT đang chọn</label>
+            <div style="display:flex; gap:6px; flex:1">
+              <select id="lutFileSelect" onchange="onLutFileSelectChange()" ondblclick="viewLutFileContent()" title="Nhấn đúp chuột để xem nội dung file CSV" style="flex:1">
+              </select>
+              <button class="btn-ghost" style="min-height:42px; padding:0 12px" onclick="viewLutFileContent()" title="Xem nội dung file CSV">👁️ Xem CSV</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center">
+            <span style="font-size:11px; color:var(--muted-dim)">💡 Nhấn đúp vào tên file để mở bảng xem định dạng CSV 40% màn hình.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="lutTableTitle">Bảng dữ liệu Mẫu Quét (Theo File đang chọn)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Mẫu #</th><th>Target (V)</th><th>Duty (%)</th><th>Vout (V)</th></tr>
+            </thead>
+            <tbody id="lutTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-history">
+      <div class="tab-hero-card hero-history">
+        <div class="tab-hero-content">
+          <div>
+            <h1 class="tab-hero-title">📊 Báo cáo Dữ liệu &amp; Nhật ký Đo đạc IOT Power Source</h1>
+            <p class="tab-hero-sub">Tự động đồng bộ Realtime Zero-Lag qua kết nối SSE PUSH | MCU: Pico W RP2040</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+            <div style="display:flex; align-items:center; gap:6px; background:#ffffff; padding:4px 10px; border-radius:8px; border:1px solid #e2e8f0; box-shadow:0 1px 3px rgba(0,0,0,0.03)">
+              <span style="font-size:12px; font-weight:600; color:var(--muted)">Chế độ xem:</span>
+              <select id="historyViewFilter" onchange="changeHistoryView()" style="min-height:30px; padding:2px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff; color:var(--text); cursor:pointer">
+                <option value="table">Dữ liệu</option>
+                <option value="stats">Thống kê</option>
+                <option value="events">Nhật ký</option>
+              </select>
+            </div>
+            <button class="btn btn-accent" style="min-height:36px; padding:6px 14px; background:#ffffff; border:1px solid #fde68a" onclick="fetchDataHistory(); fetchLogs();">🔄 Tải lại</button>
+            <button class="btn-ghost" style="min-height:36px; padding:6px 14px; background:#ffffff; border:1px solid #bbf7d0" onclick="exportReportCSV()">📥 Xuất CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-grid-layout" id="reportLayoutContainer">
+        
+        <div class="card" id="card-measure-table">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+            <h3 style="margin:0">Bảng chi tiết thông số đo đạc</h3>
+            <span class="live-indicator" style="font-size:10px; padding:2px 8px"><span class="live-dot"></span> REALTIME PUSH 1S</span>
+          </div>
+          <div class="table-wrap" style="max-height:500px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Điện áp (V)</th>
+                  <th>Dòng điện (A)</th>
+                  <th>Công suất (W)</th>
+                  <th>Nhiệt độ (°C)</th>
+                  <th>Duty (%)</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody id="measureTableBody">
+                <tr><td colspan="7" style="text-align:center; color:var(--muted)">Đang tải dữ liệu đo đạc...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="card-stats-group" style="display:none; flex-direction:column; gap:12px">
+          <div class="grid g3">
+            <div class="card" style="background:var(--cyan-soft); border-color:#bae6fd">
+              <h3 style="color:var(--cyan); margin-top:0; display:flex; align-items:center; gap:6px">⚡ Thống kê Điện áp (V)</h3>
+              <div class="field-row"><label>Trung bình (Vavg):</label><strong id="stVAvg">0.00 V</strong></div>
+              <div class="field-row"><label>Cực đại (Vmax):</label><strong id="stVMax" style="color:var(--cyan)">0.00 V</strong></div>
+              <div class="field-row"><label>Cực tiểu (Vmin):</label><strong id="stVMin">0.00 V</strong></div>
+            </div>
+
+            <div class="card" style="background:var(--amber-soft); border-color:#fde68a">
+              <h3 style="color:var(--amber); margin-top:0; display:flex; align-items:center; gap:6px">🔋 Thống kê Dòng &amp; Công suất</h3>
+              <div class="field-row"><label>Dòng TB (Iavg):</label><strong id="stIAvg">0.00 A</strong></div>
+              <div class="field-row"><label>Dòng đỉnh (Imax):</label><strong id="stIMax" style="color:var(--amber)">0.00 A</strong></div>
+              <div class="field-row"><label>Công suất đỉnh (Pmax):</label><strong id="stPMax" style="color:var(--green)">0.0 W</strong></div>
+            </div>
+
+            <div class="card" style="border-color:var(--line)">
+              <h3 style="margin-top:0; display:flex; align-items:center; gap:6px">📊 Tổng quan phiên đo &amp; Nhiệt độ</h3>
+              <div class="field-row"><label>Số mẫu ghi:</label><strong id="stTotalSamples">0</strong></div>
+              <div class="field-row"><label>Năng lượng:</label><strong id="stEnergy">0.00 Wh</strong></div>
+              <div class="field-row"><label>Nhiệt độ Max:</label><strong id="stTempMax">25.0 °C</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="card-events-group" style="display:none">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px">
+            <h3 style="margin:0">Nhật ký sự kiện Admin &amp; Cảnh báo</h3>
+            <div style="display:flex; align-items:center; gap:8px">
+              <span style="font-size:12px; font-weight:600; color:var(--muted)">Bộ lọc nhật ký:</span>
+              <select id="logTypeFilter" onchange="renderHistory()" style="width:160px; min-height:34px; padding:2px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff; color:var(--text); cursor:pointer">
+                <option value="all">🌐 Tất cả loại nhật ký</option>
+                <option value="action">⚡ Thao tác điều khiển</option>
+                <option value="login">🔐 Đăng nhập hệ thống</option>
+                <option value="alarm">🛑 Cảnh báo &amp; Quá nhiệt</option>
+              </select>
+              <button class="btn-ghost" style="min-height:34px; padding:4px 12px; background:#ffffff; border:1px solid #bbf7d0; font-size:12px" onclick="exportLogsCSV()">📥 Xuất Nhật ký CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap" style="max-height:420px">
+            <table>
+              <thead><tr><th>Thời gian</th><th>Tài khoản</th><th>Loại</th><th>Hành động / Nội dung sự kiện</th></tr></thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- MODAL PHÓNG TO ĐỒ THỊ -->
+<div id="chartZoomModal" class="modal-overlay" onclick="closeChartZoom(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2 id="zoomModalTitle">Phóng to Đồ thị</h2>
+      <div style="display:flex; align-items:center; gap:12px">
+        <span id="zoomModalRange" class="chart-range"></span>
+        <button class="btn-close-modal" onclick="closeChartZoom()" title="Đóng xem phóng to">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <svg class="chart" id="zoomSvg" viewBox="0 0 700 240" preserveAspectRatio="none" style="min-height:320px; width:100%"></svg>
+      <div class="chart-legend" id="zoomLegend" style="margin-top:16px"></div>
+    </div>
+    <div class="modal-foot">
+      <span>💡 Đang hiển thị trực tiếp dữ liệu Realtime trong chế độ phóng to</span>
+      <span>Bấm nút ✕ hoặc phím ESC để đóng</span>
+    </div>
+  </div>
+</div>
+
+<!-- DRAWER XEM FILE CHUẨN CSV (40% MÀN HÌNH SLIDE IN) -->
+<div id="fileDrawer" class="file-drawer">
+  <div class="modal-head">
+    <h2 id="fileDrawerTitle">Nội dung Tập tin CSV</h2>
+    <button class="btn-close-modal" onclick="closeFileDrawer()" title="Đóng cửa sổ">✕</button>
+  </div>
+  <div class="modal-body" style="flex:1; padding:16px; display:flex; flex-direction:column; gap:12px; overflow:hidden">
+    <!-- NÚT XÓA FILE VÀ XUẤT CSV NẰM BÊN TRONG BẢNG NỘI DUNG -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--panel2); padding:10px 14px; border-radius:8px; border:1px solid var(--line);">
+      <span style="font-size:12px; font-weight:600; color:var(--muted)" id="fileDrawerInfo">Bảng dữ liệu mẫu quét CSV</span>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-accent" style="min-height:34px; padding:4px 14px; font-size:12px" onclick="exportLutCSVFromDrawer()" title="Tải file CSV này về máy">📥 Xuất CSV</button>
+        <button class="btn btn-danger" style="min-height:34px; padding:4px 14px; font-size:12px" onclick="deleteLutFileFromDrawer()" title="Xóa file này khỏi vi điều khiển">🗑️ Xóa File</button>
+      </div>
+    </div>
+    <div style="flex:1; overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:var(--panel2);">
+      <pre class="json-code" id="fileDrawerContent" style="font-family: var(--mono); white-space: pre; margin:0; padding:12px; min-height:100%;">Đang nạp bảng dữ liệu CSV...</pre>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <span>📊 Định dạng CSV tiêu chuẩn (Comma-Separated Values)</span>
+    <button class="btn-ghost" style="min-height:32px; padding:4px 12px" onclick="closeFileDrawer()">Đóng</button>
+  </div>
+</div>
+
+<!-- MODAL YÊU CẦU ĐẶT TÊN FILE KHI QUÉT HOÀN TẤT -->
+<div id="saveFileModal" class="modal-overlay">
+  <div class="modal-card" style="max-width:440px" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2>🎉 Quét Hoàn Tất!</h2>
+    </div>
+    <div class="modal-body" style="padding:16px 20px">
+      <p style="font-size:13px; color:var(--muted); margin:0 0 14px; line-height:1.5">
+        Quá trình Auto-Tuning đã thu thập đủ dữ liệu mẫu. Vui lòng nhập tên file để lưu dữ liệu vào bộ nhớ Flash của Pico W:
+      </p>
+      <label style="font-weight:600; margin-bottom:6px">Tên file lưu trữ (.json):</label>
+      <input type="text" id="newSaveFileName" value="tai_5V.json" placeholder="Nhập tên file bất kỳ (.json)">
+    </div>
+    <div class="modal-foot" style="justify-content:flex-end; gap:10px">
+      <button class="btn btn-primary" style="margin:0; width:auto; padding:8px 20px" onclick="confirmSaveLutFile()">💾 Lưu File vào Pico</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+class CommandQueue {
+  constructor() {
+    this.isSending = false;
+    this.pendingCmd = null;
+  }
+
+  send(cmdStr) {
+    this.pendingCmd = cmdStr;
+    if (!this.isSending) {
+      this.process();
+    }
+  }
+
+  async process() {
+    if (this.isSending || !this.pendingCmd) return;
+    this.isSending = true;
+
+    while (this.pendingCmd !== null) {
+      const cmd = this.pendingCmd;
+      this.pendingCmd = null;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        const resp = await fetch(`/api/cmd?c=${encodeURIComponent(cmd)}&u=${encodeURIComponent(currentUser)}&t=${encodeURIComponent(currentToken)}`, {
+          signal: controller.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(timeoutId);
+        if (resp.ok) {
+          try {
+            const resData = await resp.json();
+            if (resData && resData.status === 'ok') {
+              applyTelemetryData(resData);
+            }
+          } catch (_) {}
+        }
+      } catch (e) {
+        console.error("Gửi lệnh lỗi:", e);
+      }
+    }
+
+    this.isSending = false;
+  }
+}
+const cmdQueue = new CommandQueue();
+
+let isUserAdjustingPwm = false;
+let pwmInteractTimer = null;
+let isUserAdjustingV = false;
+let vInteractTimer = null;
+let lastKnownActionKey = "";
+let measurementData = [];
+let wasTuning = false;
+let lastLutFetchTime = 0;
+let lastKnownLutFile = "";
+let currentDrawerFileName = "";
+let isDrawerPinned = false; // Trạng thái Ghim Bảng Điều Khiển
+
+let currentZoomChart = null;
+let chartConfigs = {
+  v: { grid: true, labels: true, showV: true, showI: false, showP: false },
+  pwm: { grid: true, labels: true, showA: true, showB: true },
+  lut: { grid: true, guide: true, labels: true }
+};
+
+function showToast(msg) {
+  const toast = document.getElementById('toastNotification');
+  const toastMsg = document.getElementById('toastMsg');
+  if (!toast || !toastMsg) return;
+  toastMsg.textContent = msg;
+  toast.style.display = 'flex';
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => { toast.style.display = 'none'; }, 2500);
+}
+
+function lockPwmInteraction() { isUserAdjustingPwm = true; clearTimeout(pwmInteractTimer); }
+function unlockPwmInteraction() { clearTimeout(pwmInteractTimer); pwmInteractTimer = setTimeout(() => { isUserAdjustingPwm = false; }, 1200); }
+function lockVInteraction() { isUserAdjustingV = true; clearTimeout(vInteractTimer); }
+function unlockVInteraction() { clearTimeout(vInteractTimer); vInteractTimer = setTimeout(() => { isUserAdjustingV = false; }, 1200); }
+
+const modes = [
+  {id:'MANUAL', icon:'⚡', title:'Thủ công', desc:'Cài đặt trực tiếp Duty Cycle từ 0.0% - 40.0%.'},
+  {id:'AUTO_V', icon:'🎯', title:'Bám áp', desc:'Kéo Slider điện áp để tự chuyển sang Bám áp. Kéo Slider Duty sẽ chuyển sang Thủ công.'},
+  {id:'TUNING', icon:'⚙️', title:'Auto-Tuning', desc:'Quét và học đặc tính tải triệt tiêu trễ.'},
+];
+
+let currentUser = '';
+let currentToken = '';
+let eventSource = null;
+let currentMode = 'MANUAL';
+let isHardwareConnected = false;
+let pwmDuty = 0.0;
+let setVVal = 0.0;
+let historyLogs = [];
+let lastKnownLogSeq = 0;
+let currentOnlineUsers = [];
+const ALL_ADMINS = ['admin1', 'admin2', 'admin3', 'admin4'];
+
+let chartData = {
+  v: new Array(30).fill(0),
+  i: new Array(30).fill(0),
+  p: new Array(30).fill(0)
+};
+let rawLutData = [];
+let lutVGrid = [];
+let lutDGrid = [];
+let realPwmA = [];
+let realPwmB = [];
+
+function syncDeviceTime() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  const wd = (now.getDay() + 6) % 7;
+  const h = now.getHours();
+  const mn = now.getMinutes();
+  const s = now.getSeconds();
+  const timeStr = `${y},${m},${d},${wd},${h},${mn},${s}`;
+
+  // Gửi trực tiếp qua fetch không cache để thiết lập RTC tức thì
+  fetch(`/api/cmd?c=SYNC_TIME:${encodeURIComponent(timeStr)}&u=${encodeURIComponent(currentUser || 'Admin')}`, { cache: 'no-store' })
+    .catch(() => cmdQueue.send(`SYNC_TIME:${timeStr}`));
+}
+
+async function doLogin() {
+  const uVal = document.getElementById('u').value.trim();
+  const pVal = document.getElementById('p').value.trim();
+  const errDiv = document.getElementById('loginErr');
+  errDiv.textContent = '';
+
+  if (!uVal || !pVal) {
+    errDiv.textContent = 'Vui lòng nhập tài khoản và mật khẩu!';
+    return;
+  }
+
+  errDiv.innerHTML = '<span style="color:var(--cyan)">⏳ Đang kiểm tra kết nối tới Pico W...</span>';
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const resp = await fetch(`/api/login?u=${encodeURIComponent(uVal)}&p=${encodeURIComponent(pVal)}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    const res = await resp.json();
+
+    if (res.status === 'ok') {
+      errDiv.textContent = '';
+      currentUser = res.user;
+      currentToken = res.token;
+      localStorage.setItem('psu_user', currentUser);
+      localStorage.setItem('psu_token', currentToken);
+
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      document.getElementById('hwStatusText').textContent = `User: ${currentUser}`;
+
+      syncDeviceTime();
+
+      setupInputListeners();
+      setupDrawerMouseEvents();
+      initSvgGrids();
+      renderModes();
+      renderAdminStatus();
+      showPage('menu');
+
+      startSSEStream();
+    } else {
+      errDiv.textContent = res.msg || 'Tài khoản hoặc mật khẩu không đúng!';
+    }
+  } catch (e) {
+    errDiv.innerHTML = '⚠️ <strong>Không có kết nối WiFi tới Pico W (192.168.4.1)!</strong><br><span style="font-size:11px; color:var(--muted)">Vui lòng kết nối vào mạng WiFi thiết bị rồi bấm Đăng nhập lại.</span>';
+  }
+}
+
+function setupInputListeners() {
+  const inputPwm = document.getElementById('pwmInput');
+  const inputV = document.getElementById('setV');
+
+  if (inputPwm) {
+    inputPwm.addEventListener('focus', lockPwmInteraction);
+    inputPwm.addEventListener('blur', unlockPwmInteraction);
+    inputPwm.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyPwm(); });
+  }
+
+  if (inputV) {
+    inputV.addEventListener('focus', lockVInteraction);
+    inputV.addEventListener('blur', unlockVInteraction);
+    inputV.addEventListener('keydown', (e) => { if (e.key === 'Enter') applySetpoint(); });
+  }
+
+  const fileSelect = document.getElementById('lutFileSelect');
+  if (fileSelect) {
+    fileSelect.addEventListener('dblclick', viewLutFileContent);
+  }
+}
+
+let lastTelemetryTime = Date.now();
+
+let isSSEConnecting = false;
+let sseReconnectTimer = null;
+
+function startSSEStream() {
+  if (!currentUser || !currentToken) return;
+
+  if (sseReconnectTimer) {
+    clearTimeout(sseReconnectTimer);
+    sseReconnectTimer = null;
+  }
+
+  if (eventSource) {
+    try { eventSource.close(); } catch(e) {}
+    eventSource = null;
+  }
+
+  isSSEConnecting = true;
+  const sseUrl = `/api/stream?u=${encodeURIComponent(currentUser)}&t=${encodeURIComponent(currentToken)}`;
+  eventSource = new EventSource(sseUrl);
+
+  eventSource.onopen = () => {
+    isSSEConnecting = false;
+    updateHardwareStatus(true);
+    syncDeviceTime();
+    lastTelemetryTime = Date.now();
+  };
+
+  eventSource.onmessage = (e) => {
+    try {
+      const data = JSON.parse(e.data);
+      lastTelemetryTime = Date.now();
+      isSSEConnecting = false;
+      updateHardwareStatus(true);
+      applyTelemetryData(data);
+    } catch (err) {}
+  };
+
+  eventSource.addEventListener('kickout', () => {
+    if (eventSource) { eventSource.close(); eventSource = null; }
+    showToast(`Phiên kết nối của [${currentUser}] đã kết thúc. Vui lòng đăng nhập lại.`);
+    doLogout();
+  });
+
+  eventSource.onerror = () => {
+    updateHardwareStatus(false);
+    // Lưu ý: EventSource chuẩn trong trình duyệt tự động thử kết nối lại ngầm định.
+    // KHÔNG tạo EventSource mới dồn dập tại đây để tránh gây bão nghẽn mạng cho Pico W.
+  };
+}
+
+function scheduleSSEReconnect() {
+  if (sseReconnectTimer) return;
+  // Độ trễ ngẫu nhiên (Jitter 800ms - 2500ms) chống bão kết nối đồng thời từ nhiều thiết bị
+  const jitterMs = 800 + Math.floor(Math.random() * 1700);
+  sseReconnectTimer = setTimeout(() => {
+    sseReconnectTimer = null;
+    startSSEStream();
+  }, jitterMs);
+}
+
+// Watchdog thông minh: Chỉ phục hồi nếu thực sự mất kết nối quá 6s và luồng bị đóng
+setInterval(() => {
+  if (currentUser && currentToken && document.getElementById('app').style.display !== 'none') {
+    const elapsed = Date.now() - lastTelemetryTime;
+    if (elapsed > 6000) {
+      updateHardwareStatus(false);
+      if (!eventSource || eventSource.readyState === 2) {
+        scheduleSSEReconnect();
+      } else if (elapsed > 10000) {
+        // Quá 10s vẫn kẹt không nhận được dữ liệu -> Khởi động lại luồng với Jitter
+        scheduleSSEReconnect();
+      }
+    }
+  }
+}, 3000);
+
+function doLogout() {
+  if (sseReconnectTimer) {
+    clearTimeout(sseReconnectTimer);
+    sseReconnectTimer = null;
+  }
+  const u = currentUser;
+  if (u) {
+    try {
+      fetch(`/api/cmd?c=${encodeURIComponent('LOGOUT:' + currentToken)}&u=${encodeURIComponent(u)}&t=${encodeURIComponent(currentToken)}`, { cache: 'no-store' }).catch(()=>{});
+    } catch(e) {}
+  }
+  if (eventSource) { eventSource.close(); eventSource = null; }
+  currentUser = '';
+  currentToken = '';
+  localStorage.removeItem('psu_token');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login').style.display = 'flex';
+}
+
+function updateHardwareStatus(connected) {
+  isHardwareConnected = connected;
+  const dot = document.getElementById('hwDot');
+  const txt = document.getElementById('hwStatusText');
+  if (connected) {
+    dot.className = 'dot';
+    txt.textContent = `Online (${currentUser})`;
+  } else {
+    dot.className = 'dot offline';
+    txt.textContent = `Mất kết nối (${currentUser})`;
+  }
+}
+
+function setTabNavigationDisabled(isDisabled) {
+  // Cho phép chuyển tab tự do mọi lúc (kể cả khi đang quét Auto-Tuning)
+}
+
+function applyTelemetryData(data) {
+  const isControlActive = document.getElementById('page-control').classList.contains('active');
+  const isAutotuneActive = document.getElementById('page-autotune').classList.contains('active');
+  const isHistoryActive = document.getElementById('page-history').classList.contains('active');
+
+  // CẬP NHẬT DỮ LIỆU ĐO ĐẠC MỚI VÀ LƯU VÀO BỘ NHỚ THIẾT BỊ (CLIENT STORAGE)
+  if (data.latest_rec) {
+    if (data.latest_rec.datetime && data.latest_rec.datetime.startsWith('2021')) {
+      syncDeviceTime();
+    }
+    if (measurementData.length === 0 || measurementData[0].datetime !== data.latest_rec.datetime) {
+      measurementData.unshift(data.latest_rec);
+      if (measurementData.length > 200) measurementData.pop();
+      try { localStorage.setItem('psu_measure_history', JSON.stringify(measurementData.slice(0, 200))); } catch (_) {}
+
+      // Tự động ghi vào file CSV trên ổ cứng PC nếu chạy qua App Windows
+      if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+        const d = data.latest_rec;
+        const csvLine = `${d.datetime},${d.v_out},${d.i_out},${d.p_out},${d.temp},${d.duty},${d.status}`;
+        fetch('/api/local_log_record', { method: 'POST', body: csvLine }).catch(() => {});
+      }
+    }
+    renderDataReport();
+  }
+
+  // ĐỒNG BỘ NHẬT KÝ HỆ THỐNG VÀO BỘ NHỚ THIẾT BỊ
+  if (data.logs && Array.isArray(data.logs)) {
+    data.logs.forEach(l => {
+      if (!historyLogs.some(h => h.t === l.t && h.msg === l.msg)) {
+        historyLogs.push(l);
+      }
+    });
+    if (historyLogs.length > 200) historyLogs = historyLogs.slice(0, 200);
+    try { localStorage.setItem('psu_logs_history', JSON.stringify(historyLogs)); } catch (_) {}
+    renderHistory();
+  } else if (data.latest_log) {
+    const isDup = historyLogs.length > 0 && 
+                  historyLogs[0].t === data.latest_log.t && 
+                  historyLogs[0].msg === data.latest_log.msg;
+    if (!isDup) {
+      historyLogs.unshift(data.latest_log);
+      if (historyLogs.length > 200) historyLogs.pop();
+      try { localStorage.setItem('psu_logs_history', JSON.stringify(historyLogs)); } catch (_) {}
+    }
+    renderHistory();
+  }
+
+  // TỰ ĐỘNG BÙ ĐỒNG BỘ NHẬT KÝ NẾU PHÁT HIỆN BỊ LỆCH log_seq
+  if (data.log_seq !== undefined) {
+    if (lastKnownLogSeq !== 0 && data.log_seq > lastKnownLogSeq && !data.latest_log) {
+      fetchLogs();
+    }
+    lastKnownLogSeq = data.log_seq;
+  }
+
+  // ĐỒNG BỘ DANH SÁCH ADMIN ONLINE / OFFLINE REALTIME
+  if (data.online_users !== undefined && Array.isArray(data.online_users)) {
+    currentOnlineUsers = data.online_users;
+    renderAdminStatus();
+  }
+
+  // ĐỒNG BỘ GIỚI HẠN BẢO VỆ
+  if (data.max_temp !== undefined) {
+    const elT = document.getElementById('cfgMaxTemp');
+    if (elT && document.activeElement !== elT) {
+      elT.value = parseFloat(data.max_temp).toFixed(1);
+    }
+  }
+  if (data.max_duty !== undefined) {
+    const elD = document.getElementById('cfgMaxDuty');
+    if (elD && document.activeElement !== elD) {
+      elD.value = parseFloat(data.max_duty).toFixed(1);
+    }
+    const pwmIn = document.getElementById('pwmInput');
+    if (pwmIn) pwmIn.max = parseFloat(data.max_duty);
+    const hint = document.getElementById('sliderStatusHint');
+    if (hint) hint.textContent = `Nhập Duty Cycle (0 - ${parseFloat(data.max_duty).toFixed(1)}%) rồi bấm Xác nhận`;
+  }
+
+  if (data.v_out !== undefined) document.getElementById('rVolt').innerHTML = parseFloat(data.v_out).toFixed(2) + '<span class="unit">V</span>';
+  if (data.i_out !== undefined) document.getElementById('rCurr').innerHTML = parseFloat(data.i_out).toFixed(2) + '<span class="unit">A</span>';
+  if (data.p_out !== undefined) document.getElementById('rPower').innerHTML = parseFloat(data.p_out).toFixed(1) + '<span class="unit">W</span>';
+  if (data.v_adc !== undefined) document.getElementById('rFb').innerHTML = parseFloat(data.v_adc).toFixed(2) + '<span class="unit">V</span>';
+  
+  if (data.temp !== undefined) {
+    document.getElementById('rTemp').innerHTML = parseFloat(data.temp).toFixed(1) + '<span class="unit">°C</span>';
+    checkTemperatureAlarm(data.temp);
+  }
+
+  if (data.ina_ok !== undefined) {
+    const inaPill = document.getElementById('inaStatusPill');
+    if (inaPill) {
+      if (data.ina_ok) {
+        inaPill.textContent = 'HOẠT ĐỘNG'; inaPill.className = 'status-pill on';
+      } else {
+        inaPill.textContent = 'LỖI CONNECTION'; inaPill.className = 'status-pill alarm';
+      }
+    }
+  }
+
+  if (data.mode !== undefined) {
+    if (data.mode !== currentMode) {
+      currentMode = data.mode;
+      document.getElementById('currentModeLabel').textContent = currentMode;
+      renderModes();
+    }
+  }
+
+  if (data.d !== undefined) {
+    pwmDuty = parseFloat(data.d);
+    document.getElementById('pwmValue').innerHTML = pwmDuty.toFixed(2) + '<span class="unit">%</span>';
+    if (!isUserAdjustingPwm) document.getElementById('pwmInput').value = pwmDuty.toFixed(2);
+  }
+
+  if (data.v_target !== undefined) {
+    document.getElementById('vSliderVal').innerHTML = parseFloat(data.v_target).toFixed(1) + '<span class="unit">V</span>';
+    if (!isUserAdjustingV) {
+      setVVal = parseFloat(data.v_target);
+      document.getElementById('setV').value = setVVal.toFixed(1);
+    }
+  }
+
+  if (data.lut_file && data.lut_file !== lastKnownLutFile) {
+    lastKnownLutFile = data.lut_file;
+    const fileSelect = document.getElementById('lutFileSelect');
+    if (fileSelect && fileSelect.value !== data.lut_file) {
+      fileSelect.value = data.lut_file;
+      currentDrawerFileName = data.lut_file;
+      const tblTitle = document.getElementById('lutTableTitle');
+      if (tblTitle && !wasTuning) {
+        tblTitle.textContent = `Bảng dữ liệu Mẫu Quét (Theo File: ${data.lut_file})`;
+      }
+      if (document.getElementById('page-autotune').classList.contains('active') && !wasTuning) {
+        fetchLutData(data.lut_file);
+      }
+    }
+  }
+
+  if (data.tuning !== undefined) {
+    setTabNavigationDisabled(!!data.tuning);
+
+    const startBtn = document.getElementById('btnStartAutotune');
+    const stopBtn = document.getElementById('btnStopAutotune');
+
+    if (data.tuning) {
+      if (startBtn) startBtn.style.display = 'none';
+      if (stopBtn) stopBtn.style.display = 'inline-flex';
+
+      document.getElementById('autotuneProgress').style.width = (data.tuning_pct || 0) + '%';
+      document.getElementById('autotuneStatusText').textContent = 
+        `Đang quét real-time: ${data.tuning_pct}% | Thực tế: ${(data.v_out||0).toFixed(2)}V (Duty: ${(data.d||0).toFixed(2)}%)`;
+      
+      const tblTitle = document.getElementById('lutTableTitle');
+      if (tblTitle) tblTitle.textContent = "Bảng dữ liệu Mẫu Quét (Realtime Tiến Trình Quét)";
+
+      if (!wasTuning) {
+        rawLutData = [];
+        if (isAutotuneActive) { renderLutTable(); drawLutChart(); }
+      }
+      if (data.tp && data.tn > rawLutData.length) {
+        if (data.tn === rawLutData.length + 1) {
+          rawLutData.push(data.tp);
+          if (isAutotuneActive) { renderLutTable(); drawLutChart(); }
+        } else if (Date.now() - lastLutFetchTime > 1000) {
+          lastLutFetchTime = Date.now();
+          fetchLutData();
+        }
+      }
+    } else {
+      if (startBtn) startBtn.style.display = 'inline-flex';
+      if (stopBtn) stopBtn.style.display = 'none';
+    }
+    
+    setControlsDisabledDuringTuning(!!data.tuning);
+
+    // KHI QUÁ TRÌNH QUÉT VỪA KẾT THÚC
+    if (wasTuning && !data.tuning) {
+      setControlsDisabledDuringTuning(false);
+      const pBar = document.getElementById('autotuneProgress');
+      const pTxt = document.getElementById('autotuneStatusText');
+
+      if (userCancelledTuning) {
+        userCancelledTuning = false;
+        if (pBar) pBar.style.width = '0%';
+        if (pTxt) pTxt.textContent = 'Đã dừng quét';
+        const modal = document.getElementById('saveFileModal');
+        if (modal) modal.classList.remove('active');
+        showToast('Đã dừng quét và hủy bỏ dữ liệu.');
+        setTimeout(fetchLutData, 300);
+      } else {
+        if (pBar) pBar.style.width = '100%';
+        if (pTxt) pTxt.textContent = 'Quét hoàn tất: 100%';
+        if (data.tuning_by && data.tuning_by !== currentUser) {
+          showToast(`[${data.tuning_by}] vừa hoàn tất phiên Auto-Tuning!`);
+        } else if (rawLutData && rawLutData.length > 0) {
+          const presetVal = document.getElementById('tunePresetSelect').value;
+          const limitV = presetVal.split(':')[0] || '5';
+          document.getElementById('newSaveFileName').value = `tai_${limitV}V.json`;
+          document.getElementById('saveFileModal').classList.add('active');
+          fetchLutData();
+        } else {
+          showToast('Phiên quét đã hoàn tất: 100%');
+        }
+      }
+    }
+    wasTuning = !!data.tuning;
+  }
+
+  if (data.v_out !== undefined) {
+    chartData.v.push(parseFloat(data.v_out));
+    if (chartData.v.length > 30) chartData.v.shift();
+  }
+  if (data.i_out !== undefined) {
+    chartData.i.push(parseFloat(data.i_out));
+    if (chartData.i.length > 30) chartData.i.shift();
+  }
+  if (data.p_out !== undefined) {
+    chartData.p.push(parseFloat(data.p_out));
+    if (chartData.p.length > 30) chartData.p.shift();
+  }
+
+  if (isControlActive) {
+    if (data.pwma !== undefined && data.pwmb !== undefined) {
+      realPwmA = data.pwma;
+      realPwmB = data.pwmb;
+      drawPwmChart();
+    }
+    drawVoltageChart();
+  }
+
+  if (data.last_user && data.last_action) {
+    const actionKey = `${data.last_user}_${data.last_action}`;
+    if (actionKey !== lastKnownActionKey) {
+      lastKnownActionKey = actionKey;
+      document.getElementById('lastActionText').textContent = `Thao tác gần nhất: ${data.last_user} (${data.last_action})`;
+      if (data.last_user !== currentUser) {
+        showToast(`[${data.last_user}] vừa ${data.last_action}`);
+      }
+    }
+  }
+}
+
+function confirmSaveLutFile() {
+  let fname = document.getElementById('newSaveFileName').value.trim();
+  if (!fname) fname = "tai_custom.json";
+  if (!fname.endsWith('.json')) fname += '.json';
+
+  cmdQueue.send(`SAVE_SWEEP_FILE:${encodeURIComponent(fname)}`);
+  document.getElementById('saveFileModal').classList.remove('active');
+  showToast(`Đã lưu dữ liệu vào file: ${fname}`);
+  setTimeout(fetchLutData, 600);
+}
+
+function applyProtectionLimits() {
+  const elT = document.getElementById('cfgMaxTemp');
+  const elD = document.getElementById('cfgMaxDuty');
+  const tVal = parseFloat(elT ? elT.value : 75.0);
+  const dVal = parseFloat(elD ? elD.value : 40.0);
+  if (isNaN(tVal) || tVal < 30 || tVal > 85) {
+    alert("Nhiệt độ bảo vệ phải nằm trong khoảng từ 30.0°C đến 85.0°C!");
+    return;
+  }
+  if (isNaN(dVal) || dVal < 5 || dVal > 45) {
+    alert("Duty Cycle tối đa phải nằm trong khoảng từ 5.0% đến 45.0%!");
+    return;
+  }
+  cmdQueue.send(`SET_LIMITS:${tVal.toFixed(1)}:${dVal.toFixed(1)}`);
+  showToast(`Đã lưu giới hạn: T_max = ${tVal.toFixed(1)}°C, Duty_max = ${dVal.toFixed(1)}%`);
+}
+
+function resetDefaultLimits() {
+  const elT = document.getElementById('cfgMaxTemp');
+  const elD = document.getElementById('cfgMaxDuty');
+  if (elT) elT.value = "75.0";
+  if (elD) elD.value = "40.0";
+  applyProtectionLimits();
+}
+
+function setQuickV(v) {
+  const input = document.getElementById('setV');
+  if (input) {
+    input.value = v.toFixed(1);
+    setVVal = v;
+    const vSliderVal = document.getElementById('vSliderVal');
+    if (vSliderVal) vSliderVal.innerHTML = v.toFixed(1) + '<span class="unit">V</span>';
+    isUserAdjustingV = true;
+    clearTimeout(vInteractTimer);
+    vInteractTimer = setTimeout(() => { isUserAdjustingV = false; }, 4000);
+    showToast(`Đã chọn mốc ${v.toFixed(1)}V. Bấm 'Xác nhận V_target' để áp dụng`);
+  }
+}
+
+function setQuickDuty(d) {
+  const input = document.getElementById('pwmInput');
+  if (input) {
+    input.value = d.toFixed(2);
+    pwmDuty = d;
+    const pwmVal = document.getElementById('pwmValue');
+    if (pwmVal) pwmVal.innerHTML = d.toFixed(2) + '<span class="unit">%</span>';
+    isUserAdjustingPwm = true;
+    clearTimeout(pwmInteractTimer);
+    pwmInteractTimer = setTimeout(() => { isUserAdjustingPwm = false; }, 4000);
+    showToast(`Đã chọn mốc ${d.toFixed(2)}%. Bấm 'Xác nhận Duty' để áp dụng`);
+  }
+}
+
+function checkTemperatureAlarm(temp) {
+  const sysStatus = document.getElementById('systemStatus');
+  const cfgEl = document.getElementById('cfgMaxTemp');
+  const limitT = cfgEl ? parseFloat(cfgEl.value) : 75.0;
+  if (temp > limitT) {
+    sysStatus.textContent = 'QUÁ NHIỆT'; sysStatus.className = 'status-pill alarm';
+  } else {
+    sysStatus.textContent = 'BÌNH THƯỜNG'; sysStatus.className = 'status-pill on';
+  }
+}
+
+function applyPwm() {
+  let val = parseFloat(document.getElementById('pwmInput').value);
+  if (isNaN(val)) { showToast('Duty không hợp lệ'); return; }
+  const cfgEl = document.getElementById('cfgMaxDuty');
+  const maxD = cfgEl ? parseFloat(cfgEl.value) : 40.0;
+  if (val > maxD) val = maxD;
+  if (val < 0) val = 0.0;
+  pwmDuty = val;
+  document.getElementById('pwmInput').value = val.toFixed(2);
+  const pwmVal = document.getElementById('pwmValue');
+  if (pwmVal) pwmVal.innerHTML = val.toFixed(2) + '<span class="unit">%</span>';
+
+  isUserAdjustingPwm = false;
+  clearTimeout(pwmInteractTimer);
+
+  if (currentMode !== 'MANUAL') {
+    currentMode = 'MANUAL';
+    document.getElementById('currentModeLabel').textContent = currentMode;
+    renderModes();
+  }
+  cmdQueue.send(`SET:${pwmDuty.toFixed(2)}`);
+  showToast(`Đã xác nhận Duty = ${pwmDuty.toFixed(2)}%`);
+}
+
+function applySetpoint() {
+  setVVal = parseFloat(document.getElementById('setV').value);
+  if (isNaN(setVVal)) setVVal = 0.0;
+  if (setVVal > 15.0) setVVal = 15.0;
+  if (setVVal < 0) setVVal = 0.0;
+
+  document.getElementById('setV').value = setVVal.toFixed(1);
+  const vSliderVal = document.getElementById('vSliderVal');
+  if (vSliderVal) vSliderVal.innerHTML = setVVal.toFixed(1) + '<span class="unit">V</span>';
+
+  isUserAdjustingV = false;
+  clearTimeout(vInteractTimer);
+
+  // Khi set điện áp bám là 0V thì nghĩa là 0% duty
+  if (setVVal <= 0.01) {
+    pwmDuty = 0.00;
+    const pwmInput = document.getElementById('pwmInput');
+    if (pwmInput) pwmInput.value = '0.00';
+    const pwmVal = document.getElementById('pwmValue');
+    if (pwmVal) pwmVal.innerHTML = '0.00<span class="unit">%</span>';
+  }
+
+  if (currentMode !== 'AUTO_V') {
+    currentMode = 'AUTO_V';
+    document.getElementById('currentModeLabel').textContent = currentMode;
+    renderModes();
+  }
+
+  cmdQueue.send(`SET_V:${setVVal.toFixed(1)}`);
+  showToast(`Đã xác nhận V_target = ${setVVal.toFixed(1)}V`);
+}
+
+function selectMode(id) {
+  currentMode = id;
+  renderModes();
+  if (id === 'MANUAL') cmdQueue.send(`SET:${pwmDuty.toFixed(2)}`);
+  else if (id === 'AUTO_V') cmdQueue.send(`SET_V:${setVVal.toFixed(1)}`);
+}
+
+let userCancelledTuning = false;
+
+function setControlsDisabledDuringTuning(disabled) {
+  const dutySlider = document.getElementById('dutySlider');
+  if (dutySlider) dutySlider.disabled = disabled;
+  const dutyInput = document.getElementById('dutyInput');
+  if (dutyInput) dutyInput.disabled = disabled;
+  const vTargetInput = document.getElementById('vTargetInput');
+  if (vTargetInput) vTargetInput.disabled = disabled;
+  const setVBtn = document.getElementById('setVBtn');
+  if (setVBtn) setVBtn.disabled = disabled;
+  const tunePreset = document.getElementById('tunePresetSelect');
+  if (tunePreset) tunePreset.disabled = disabled;
+  const lutSelect = document.getElementById('lutFileSelect');
+  if (lutSelect) lutSelect.disabled = disabled;
+
+  document.querySelectorAll('.btn-preset').forEach(btn => {
+    btn.disabled = disabled;
+    btn.style.opacity = disabled ? '0.5' : '1';
+    btn.style.pointerEvents = disabled ? 'none' : 'auto';
+  });
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.style.opacity = disabled ? '0.5' : '1';
+    card.style.pointerEvents = disabled ? 'none' : 'auto';
+  });
+}
+
+function startAutoTune() {
+  userCancelledTuning = false;
+  const presetVal = document.getElementById('tunePresetSelect').value;
+  const parts = presetVal.split(':');
+  const limitV = parts[0];
+  const pts = parts[1];
+  cmdQueue.send(`TUNING:${limitV}:${pts}`);
+  showToast(`Bắt đầu Auto-Tuning (${limitV}V, ${pts} mẫu)...`);
+}
+
+function stopAutoTune() {
+  userCancelledTuning = true;
+  cmdQueue.send('STOP_TUNING');
+  showToast("Yêu cầu dừng quét! Dữ liệu quét dở dang đã được hủy bỏ.");
+  const modal = document.getElementById('saveFileModal');
+  if (modal) modal.classList.remove('active');
+  const pBar = document.getElementById('autotuneProgress');
+  if (pBar) pBar.style.width = '0%';
+  const pTxt = document.getElementById('autotuneStatusText');
+  if (pTxt) pTxt.textContent = 'Đã hủy quét';
+  setTimeout(fetchLutData, 400);
+}
+
+function onLutFileSelectChange() {
+  const select = document.getElementById('lutFileSelect');
+  const fname = select ? select.value : '';
+  if (fname) {
+    showToast(`Đang tải dữ liệu: ${fname}...`);
+    fetchLutData(fname);
+  }
+}
+
+async function viewLutFileContent() {
+  const select = document.getElementById('lutFileSelect');
+  const fname = select ? select.value : '';
+  if (!fname) return;
+
+  currentDrawerFileName = fname;
+  const drawer = document.getElementById('fileDrawer');
+  const contentEl = document.getElementById('fileDrawerContent');
+  const titleEl = document.getElementById('fileDrawerTitle');
+  const infoEl = document.getElementById('fileDrawerInfo');
+  
+  titleEl.textContent = `Tập tin CSV: ${fname}`;
+  if (infoEl) infoEl.textContent = `Bảng dữ liệu mẫu quét CSV: ${fname}`;
+  contentEl.textContent = "Đang nạp dữ liệu tập tin từ Pico W...";
+  drawer.classList.add('open');
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const resp = await fetch(`/api/read_file?f=${encodeURIComponent(fname)}&u=${encodeURIComponent(currentUser)}&t=${encodeURIComponent(currentToken)}`, {
+      cache: 'no-store',
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    if (resp.ok) {
+      const data = await resp.json();
+      let rawArr = data.raw || [];
+      if (!Array.isArray(rawArr) && Array.isArray(data)) rawArr = data;
+
+      if (rawArr.length > 0) {
+        let csvText = "  STT   |  Target (V)  |   Duty (%)   |   Vout (V)   \n";
+        csvText += "---------------------------------------------------\n";
+        rawArr.forEach((item, idx) => {
+          const stt = String(idx + 1).padStart(5, ' ');
+          const tgt = Number(item.target || 0).toFixed(2).padStart(8, ' ') + ' V';
+          const dty = Number(item.duty || 0).toFixed(2).padStart(8, ' ') + ' %';
+          const vlt = Number(item.volt || 0).toFixed(3).padStart(8, ' ') + ' V';
+          csvText += ` ${stt}  |  ${tgt}  |  ${dty}  |  ${vlt}  \n`;
+        });
+        contentEl.textContent = csvText;
+      } else {
+        contentEl.textContent = "Tệp rỗng hoặc không chứa bảng dữ liệu mẫu.";
+      }
+    } else {
+      contentEl.textContent = "Lỗi: Không tìm thấy file trên vi điều khiển!";
+    }
+  } catch (e) {
+    if (e.name === 'AbortError') {
+      contentEl.textContent = "⚠️ Thời gian tải tệp tin quá lâu. Pico W đang bận xử lý, vui lòng đóng bảng và mở lại sau giây lát.";
+    } else {
+      contentEl.textContent = "Lỗi kết nối khi lấy dữ liệu file!";
+    }
+  }
+}
+
+function closeFileDrawer() {
+  document.getElementById('fileDrawer').classList.remove('open');
+}
+
+async function deleteLutFileByName(fname) {
+  if (!fname) return;
+  if (!confirm(`Xóa vĩnh viễn file "${fname}" khỏi bộ nhớ Pico W?`)) return;
+  try {
+    const resp = await fetch(`/api/delete_file?f=${encodeURIComponent(fname)}&u=${encodeURIComponent(currentUser)}&t=${encodeURIComponent(currentToken)}`);
+    const res = await resp.json();
+    showToast(res.msg || 'Đã xử lý yêu cầu xóa file');
+    closeFileDrawer();
+    fetchLutData();
+  } catch (e) {
+    showToast('Lỗi kết nối khi xóa file!');
+  }
+}
+
+function deleteLutFileFromDrawer() {
+  if (!currentDrawerFileName) return;
+  deleteLutFileByName(currentDrawerFileName);
+}
+
+function exportLutCSVFromDrawer() {
+  exportLutCSV();
+}
+
+let isLutFetching = false;
+
+async function fetchLutData(targetFile) {
+  if (isLutFetching && !targetFile) return;
+  isLutFetching = true;
+  const fileSelect = document.getElementById('lutFileSelect');
+  const tblTitle = document.getElementById('lutTableTitle');
+  const tblBody = document.getElementById('lutTableBody');
+  const reqFile = targetFile || (fileSelect ? fileSelect.value : '');
+  const url = reqFile ? `/api/lut?f=${encodeURIComponent(reqFile)}` : '/api/lut';
+
+  if (tblTitle && !wasTuning && reqFile) {
+    tblTitle.textContent = `Bảng dữ liệu Mẫu Quét (Đang tải: ${reqFile}... ⏳)`;
+  }
+  if (tblBody && rawLutData.length === 0) {
+    tblBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--cyan);padding:20px">⏳ Đang tải dữ liệu từ Pico W, vui lòng đợi...</td></tr>';
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+    const resp = await fetch(url, { cache: 'no-store', signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.status === 'error') {
+        showToast(data.msg || "Pico W đang xử lý... vui lòng đợi!");
+        return;
+      }
+
+      if (!wasTuning || (data.raw && data.raw.length > 0)) {
+        rawLutData = data.raw || [];
+      }
+      lutVGrid = data.lut_v || [];
+      lutDGrid = data.lut_d || [];
+      
+      // Chỉ loại bỏ file cũ lut_12 và manifest.json (giữ nguyên file 12V nếu người dùng quét)
+      const validFiles = (data.files || []).filter(f => !f.startsWith('lut_12') && f !== 'manifest.json');
+
+      if (fileSelect && validFiles.length > 0) {
+        const activeFile = (data.file && validFiles.includes(data.file)) ? data.file : (reqFile && validFiles.includes(reqFile) ? reqFile : validFiles[0]);
+        lastKnownLutFile = activeFile;
+        fileSelect.innerHTML = validFiles.map(f => `<option value="${f}" ${f === activeFile ? 'selected' : ''}>${f}</option>`).join('');
+        fileSelect.value = activeFile;
+        currentDrawerFileName = activeFile;
+      }
+
+      if (tblTitle && !wasTuning) {
+        const displayedFile = (fileSelect && fileSelect.value) ? fileSelect.value : (data.file || 'Mặc định');
+        tblTitle.textContent = `Bảng dữ liệu Mẫu Quét (Theo File: ${displayedFile})`;
+      }
+    }
+  } catch(e) {
+    if (e.name === 'AbortError') {
+      showToast('⏳ Pico W đang xử lý nhiều dữ liệu, vui lòng đợi chút...');
+    }
+  } finally {
+    isLutFetching = false;
+  }
+  
+  if (document.getElementById('page-autotune').classList.contains('active')) {
+    renderLutTable();
+    drawLutChart();
+  }
+}
+
+function renderLutTable() {
+  const body = document.getElementById('lutTableBody');
+  if (!body) return;
+  if (rawLutData.length === 0) {
+    body.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Chưa có dữ liệu mẫu quét</td></tr>';
+    return;
+  }
+  body.innerHTML = rawLutData.map((d, i) => `
+    <tr>
+      <td>#${i+1}</td>
+      <td>${d.target} V</td>
+      <td style="font-family:var(--mono)">${d.duty}%</td>
+      <td style="font-family:var(--mono);color:var(--cyan)">${d.volt} V</td>
+    </tr>
+  `).join('');
+}
+
+function exportLutCSV() {
+  if (rawLutData.length === 0) return;
+  let csv = 'Index,Target(V),Duty(%),Vout(V)\n';
+  rawLutData.forEach((d, i) => { csv += `${i+1},${d.target},${d.duty},${d.volt}\n`; });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', `${currentDrawerFileName || 'IOT_Power_Source_LUT'}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function toggleChartMenu(e, chartType) {
+  e.stopPropagation();
+  ['v', 'pwm', 'lut'].forEach(m => {
+    const el = document.getElementById(`chart${m.toUpperCase()}Menu`);
+    if (el) {
+      if (m === chartType) el.classList.toggle('show');
+      else el.classList.remove('show');
+    }
+  });
+}
+
+document.addEventListener('click', () => {
+  ['v', 'pwm', 'lut'].forEach(m => {
+    const el = document.getElementById(`chart${m.toUpperCase()}Menu`);
+    if (el) el.classList.remove('show');
+  });
+});
+
+function updateChartConfig(chartType) {
+  if (chartType === 'v') {
+    chartConfigs.v.grid = document.getElementById('vGridCheck').checked;
+    chartConfigs.v.labels = document.getElementById('vLabelCheck').checked;
+    chartConfigs.v.showV = document.getElementById('vShowV').checked;
+    chartConfigs.v.showI = document.getElementById('vShowI').checked;
+    chartConfigs.v.showP = document.getElementById('vShowP').checked;
+    drawVoltageChart();
+  } else if (chartType === 'pwm') {
+    chartConfigs.pwm.grid = document.getElementById('pwmGridCheck').checked;
+    chartConfigs.pwm.labels = document.getElementById('pwmLabelCheck').checked;
+    chartConfigs.pwm.showA = document.getElementById('pwmShowA').checked;
+    chartConfigs.pwm.showB = document.getElementById('pwmShowB').checked;
+    drawPwmChart();
+  } else if (chartType === 'lut') {
+    chartConfigs.lut.grid = document.getElementById('lutGridCheck').checked;
+    chartConfigs.lut.guide = document.getElementById('lutGuideCheck').checked;
+    chartConfigs.lut.labels = document.getElementById('lutLabelCheck').checked;
+    drawLutChart();
+  }
+}
+
+function handleChartCardClick(e, chartType) {
+  if (e.target.closest('.chart-gear-btn') || e.target.closest('.chart-menu-popover')) {
+    return;
+  }
+  openChartZoom(chartType);
+}
+
+function openChartZoom(chartType) {
+  currentZoomChart = chartType;
+  const modal = document.getElementById('chartZoomModal');
+  if (modal) modal.classList.add('active');
+
+  if (chartType === 'v') drawVoltageChart();
+  else if (chartType === 'pwm') drawPwmChart();
+  else if (chartType === 'lut') drawLutChart();
+}
+
+function closeChartZoom(e) {
+  if (e && e.target && !e.target.classList.contains('modal-overlay') && !e.target.classList.contains('btn-close-modal')) {
+    return;
+  }
+  currentZoomChart = null;
+  const modal = document.getElementById('chartZoomModal');
+  if (modal) modal.classList.remove('active');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (currentZoomChart) closeChartZoom();
+    closeFileDrawer();
+  }
+});
+
+function syncZoomModal(chartType, title, range, svgInnerHtml, legendHtml) {
+  if (currentZoomChart !== chartType) return;
+  document.getElementById('zoomModalTitle').textContent = title;
+  document.getElementById('zoomModalRange').textContent = range;
+  document.getElementById('zoomSvg').innerHTML = svgInnerHtml;
+  document.getElementById('zoomLegend').innerHTML = legendHtml;
+}
+
+function initSvgGrids() {
+  drawVoltageChart();
+  const W=700, ML=40, MR=15, pw=W-ML-MR;
+
+  const aHigh = 25, aLow = 95, bHigh = 135, bLow = 205;
+  let timeGrid = '';
+  const totalUs = 175;
+  for (let us = 0; us <= totalUs; us += 50) {
+    const x = ML + (us / totalUs) * pw;
+    timeGrid += `<line x1="${x.toFixed(1)}" y1="15" x2="${x.toFixed(1)}" y2="210" stroke="var(--line-soft)" stroke-dasharray="3 3"/>`;
+    timeGrid += `<text x="${x.toFixed(1)}" y="228" font-size="10" text-anchor="middle">${us}µs</text>`;
+  }
+  const pwmGridHtml = `
+    ${timeGrid}
+    <line x1="${ML}" y1="${aLow}" x2="${W-MR}" y2="${aLow}" stroke="var(--line)" stroke-width="1"/>
+    <text x="${ML-8}" y="${aLow+3}" font-size="10" text-anchor="end">0V</text>
+    <text x="${ML-8}" y="${aHigh+3}" font-size="10" text-anchor="end" fill="var(--amber)">GP14</text>
+    <line x1="${ML}" y1="115" x2="${W-MR}" y2="115" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="${ML}" y1="${bLow}" x2="${W-MR}" y2="${bLow}" stroke="var(--line)" stroke-width="1"/>
+    <text x="${ML-8}" y="${bLow+3}" font-size="10" text-anchor="end">0V</text>
+    <text x="${ML-8}" y="${bHigh+3}" font-size="10" text-anchor="end" fill="var(--cyan)">GP15</text>
+  `;
+  const pwmGridG = document.getElementById('pwmGridGroup');
+  if (pwmGridG) pwmGridG.innerHTML = pwmGridHtml;
+}
+
+function drawVoltageChart() {
+  const vPath = document.getElementById('vPath');
+  const iPath = document.getElementById('iPath');
+  const pPath = document.getElementById('pPath');
+  const labelsG = document.getElementById('vLabelsGroup');
+  const vGridG = document.getElementById('vGridGroup');
+  if (!vPath || !iPath || !pPath) return;
+
+  const cfg = chartConfigs.v;
+
+  const selectedChs = [];
+  if (cfg.showV) selectedChs.push('Điện áp ngõ ra');
+  if (cfg.showI) selectedChs.push('Dòng điện');
+  if (cfg.showP) selectedChs.push('Công suất');
+
+  const titleStr = "Đồ thị " + (selectedChs.length > 0 ? selectedChs.join(' & ') : '(Chưa chọn tín hiệu)');
+  document.getElementById('chartVTitle').textContent = titleStr;
+
+  let rangeParts = [];
+  if (cfg.showV) rangeParts.push('V: 0–15V');
+  if (cfg.showI) rangeParts.push('I: 0–5A');
+  if (cfg.showP) rangeParts.push('P: 0–60W');
+  const rangeStr = rangeParts.join(' | ') || '0–15 V';
+  document.getElementById('chartVRange').textContent = rangeStr;
+
+  let legendHtml = '';
+  if (cfg.showV) legendHtml += '<span><i style="background:var(--cyan)"></i>Điện áp ra (V)</span>';
+  if (cfg.showI) legendHtml += '<span><i style="background:var(--amber)"></i>Dòng điện (A) [Trục phải]</span>';
+  if (cfg.showP) legendHtml += '<span><i style="background:var(--green)"></i>Công suất (W) [Trục phải]</span>';
+  document.getElementById('vChartLegend').innerHTML = legendHtml || '<span style="color:var(--muted)">Chưa chọn tín hiệu</span>';
+
+  const hasSecondary = (cfg.showI || cfg.showP);
+  const W=700, H=220, ML=42, MR=(hasSecondary ? 62 : 16), MT=18, MB=25, pw=W-ML-MR, ph=H-MT-MB;
+  const n = Math.max(chartData.v.length, chartData.i.length, chartData.p.length);
+  const scaleX = idx => ML + (n <= 1 ? 0 : idx / (n - 1) * pw);
+
+  const pyV = val => MT + ph - (Math.min(15, Math.max(0, val)) / 15) * ph;
+  const pyI = val => MT + ph - (Math.min(5, Math.max(0, val)) / 5) * ph;
+  const pyP = val => MT + ph - (Math.min(60, Math.max(0, val)) / 60) * ph;
+
+  // DỰNG LƯỚI & TRỤC TỌA ĐỘ CHÍNH VÀ PHỤ
+  if (vGridG) {
+    if (cfg.grid) {
+      let vGridHtml = '';
+      // Trục trái (Điện áp V)
+      for (let v = 0; v <= 15; v += 3) {
+        const y = (MT + ph - (v / 15) * ph).toFixed(1);
+        vGridHtml += `<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+        vGridHtml += `<text x="${ML-6}" y="${Number(y)+4}" font-size="10" font-family="var(--mono)" text-anchor="end" fill="var(--cyan)">${v}V</text>`;
+      }
+      vGridHtml += `<text x="${ML}" y="${MT-6}" font-size="9" font-weight="700" fill="var(--cyan)" text-anchor="start">V (Volt)</text>`;
+
+      // Trục phụ bên phải (Dòng điện A và/hoặc Công suất W)
+      if (hasSecondary) {
+        vGridHtml += `<line x1="${W-MR}" y1="${MT}" x2="${W-MR}" y2="${MT+ph}" stroke="var(--line)" stroke-width="1.2"/>`;
+        
+        if (cfg.showI && !cfg.showP) {
+          vGridHtml += `<text x="${W-MR+6}" y="${MT-6}" font-size="9" font-weight="700" fill="var(--amber)" text-anchor="start">I (Ampere)</text>`;
+        } else if (cfg.showP && !cfg.showI) {
+          vGridHtml += `<text x="${W-MR+6}" y="${MT-6}" font-size="9" font-weight="700" fill="var(--green)" text-anchor="start">P (Watt)</text>`;
+        } else {
+          vGridHtml += `<text x="${W-MR+6}" y="${MT-6}" font-size="8.5" font-weight="700" text-anchor="start"><tspan fill="var(--amber)">I (A)</tspan> <tspan fill="var(--muted)">/</tspan> <tspan fill="var(--green)">P (W)</tspan></text>`;
+        }
+
+        for (let k = 0; k <= 5; k++) {
+          const y = (MT + ph - (k / 5.0) * ph).toFixed(1);
+          vGridHtml += `<line x1="${W-MR}" y1="${y}" x2="${W-MR+4}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+          if (cfg.showI && !cfg.showP) {
+            const iVal = (5.0 * k / 5.0).toFixed(1) + 'A';
+            vGridHtml += `<text x="${W-MR+7}" y="${Number(y)+3.5}" font-size="10" font-family="var(--mono)" font-weight="600" fill="var(--amber)" text-anchor="start">${iVal}</text>`;
+          } else if (cfg.showP && !cfg.showI) {
+            const pVal = (60.0 * k / 5.0).toFixed(0) + 'W';
+            vGridHtml += `<text x="${W-MR+7}" y="${Number(y)+3.5}" font-size="10" font-family="var(--mono)" font-weight="600" fill="var(--green)" text-anchor="start">${pVal}</text>`;
+          } else {
+            const iVal = (5.0 * k / 5.0).toFixed(1) + 'A';
+            const pVal = (60.0 * k / 5.0).toFixed(0) + 'W';
+            vGridHtml += `<text x="${W-MR+6}" y="${Number(y)+3.5}" font-size="8.5" font-family="var(--mono)" text-anchor="start"><tspan fill="var(--amber)" font-weight="600">${iVal}</tspan> <tspan fill="var(--muted)">|</tspan> <tspan fill="var(--green)" font-weight="600">${pVal}</tspan></text>`;
+          }
+        }
+      }
+      vGridG.innerHTML = vGridHtml;
+      vGridG.style.display = 'inline';
+    } else {
+      vGridG.style.display = 'none';
+    }
+  }
+
+  function buildSplinePath(dataArr, scaleYFunc) {
+    if (!dataArr || dataArr.length === 0) return '';
+    const pts = dataArr.map((val, idx) => [scaleX(idx), scaleYFunc(val)]);
+    let pathD = `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i], p1 = pts[i + 1], cx = (p0[0] + p1[0]) / 2;
+      pathD += ` C ${cx.toFixed(1)},${p0[1].toFixed(1)} ${cx.toFixed(1)},${p1[1].toFixed(1)} ${p1[0].toFixed(1)},${p1[1].toFixed(1)}`;
+    }
+    return pathD;
+  }
+
+  vPath.setAttribute('d', cfg.showV ? buildSplinePath(chartData.v, pyV) : '');
+  iPath.setAttribute('d', cfg.showI ? buildSplinePath(chartData.i, pyI) : '');
+  pPath.setAttribute('d', cfg.showP ? buildSplinePath(chartData.p, pyP) : '');
+
+  let labelsHtml = '';
+  if (cfg.labels && n > 0) {
+    const lastIdx = n - 1;
+    const lastX = scaleX(lastIdx);
+
+    if (cfg.showV && chartData.v[lastIdx] !== undefined) {
+      const lastV = chartData.v[lastIdx];
+      const yV = pyV(lastV);
+      labelsHtml += `<circle cx="${lastX.toFixed(1)}" cy="${yV.toFixed(1)}" r="4" fill="var(--cyan)"/>`;
+      labelsHtml += `<text x="${(lastX-8).toFixed(1)}" y="${(yV-8).toFixed(1)}" font-size="11" font-weight="bold" fill="var(--cyan)" text-anchor="end">${Number(lastV).toFixed(2)}V</text>`;
+    }
+    if (cfg.showI && chartData.i[lastIdx] !== undefined) {
+      const lastI = chartData.i[lastIdx];
+      const yI = pyI(lastI);
+      labelsHtml += `<circle cx="${lastX.toFixed(1)}" cy="${yI.toFixed(1)}" r="4" fill="var(--amber)"/>`;
+      labelsHtml += `<text x="${(lastX-8).toFixed(1)}" y="${(yI-8).toFixed(1)}" font-size="11" font-weight="bold" fill="var(--amber)" text-anchor="end">${Number(lastI).toFixed(2)}A</text>`;
+    }
+    if (cfg.showP && chartData.p[lastIdx] !== undefined) {
+      const lastP = chartData.p[lastIdx];
+      const yP = pyP(lastP);
+      labelsHtml += `<circle cx="${lastX.toFixed(1)}" cy="${yP.toFixed(1)}" r="4" fill="var(--green)"/>`;
+      labelsHtml += `<text x="${(lastX-8).toFixed(1)}" y="${(yP-8).toFixed(1)}" font-size="11" font-weight="bold" fill="var(--green)" text-anchor="end">${Number(lastP).toFixed(1)}W</text>`;
+    }
+  }
+  if (labelsG) labelsG.innerHTML = labelsHtml;
+
+  if (currentZoomChart === 'v') {
+    syncZoomModal('v', titleStr, rangeStr, document.getElementById('chartVSvg').innerHTML, legendHtml);
+  }
+}
+
+function drawPwmChart() {
+  const pathAEl = document.getElementById('pwmPathA');
+  const pathBEl = document.getElementById('pwmPathB');
+  const pwmGridG = document.getElementById('pwmGridGroup');
+  const pwmLabelsG = document.getElementById('pwmLabelsGroup');
+  if (!pathAEl || !pathBEl) return;
+
+  const cfg = chartConfigs.pwm;
+
+  if (pwmGridG) pwmGridG.style.display = cfg.grid ? 'inline' : 'none';
+
+  const chs = [];
+  if (cfg.showA) chs.push('Phase A (GP14)');
+  if (cfg.showB) chs.push('Phase B (GP15)');
+  const titleStr = "Dạng xung PWM " + (chs.length > 0 ? chs.join(' & ') : '(Chưa chọn kênh)');
+  document.getElementById('chartPwmTitle').textContent = titleStr;
+
+  let legendHtml = '';
+  if (cfg.showA) legendHtml += '<span><i style="background:var(--amber)"></i>Phase A (GP14)</span>';
+  if (cfg.showB) legendHtml += '<span><i style="background:var(--cyan)"></i>Phase B (GP15)</span>';
+  document.getElementById('pwmChartLegend').innerHTML = legendHtml || '<span style="color:var(--muted)">Chưa chọn kênh</span>';
+
+  const W = 700, ML = 45, MR = 15, pw = W - ML - MR;
+  const aHigh = 25, aLow = 95, bHigh = 135, bLow = 205;
+
+  function buildDigitalStepPath(samples, highY, lowY) {
+    if (!samples || samples.length === 0) return '';
+    const n = samples.length;
+    const dx = pw / (n - 1);
+    let path = '', prevX = ML, prevY = (samples[0] === 1) ? highY : lowY;
+    path += `M ${prevX.toFixed(1)},${prevY.toFixed(1)} `;
+
+    for (let i = 1; i < n; i++) {
+      const currX = ML + i * dx;
+      const currY = (samples[i] === 1) ? highY : lowY;
+      if (currY !== prevY) path += `H ${currX.toFixed(1)} V ${currY.toFixed(1)} `;
+      else path += `H ${currX.toFixed(1)} `;
+      prevY = currY;
+    }
+    return path;
+  }
+
+  pathAEl.setAttribute('d', cfg.showA ? buildDigitalStepPath(realPwmA, aHigh, aLow) : '');
+  pathBEl.setAttribute('d', cfg.showB ? buildDigitalStepPath(realPwmB, bHigh, bLow) : '');
+
+  let labelsHtml = '';
+  if (pwmLabelsG) pwmLabelsG.innerHTML = labelsHtml;
+
+  if (currentZoomChart === 'pwm') {
+    syncZoomModal('pwm', titleStr, 'Trigger Edge · Logic 0-3.3V', document.getElementById('chartPwmSvg').innerHTML, legendHtml);
+  }
+}
+
+function drawLutChart() {
+  const pathUpEl = document.getElementById('lutPathUp');
+  const gridGroup = document.getElementById('lutGridGroup');
+  const labelsG = document.getElementById('lutLabelsGroup');
+  if (!pathUpEl) return;
+
+  const cfg = chartConfigs.lut;
+
+  if (gridGroup) gridGroup.style.display = cfg.grid ? 'inline' : 'none';
+
+  const titleStr = "Đặc tính LUT (Duty vs Vout Realtime)";
+  document.getElementById('chartLutTitle').textContent = titleStr;
+
+  let legendHtml = '<span><i style="background:var(--amber)"></i>Đường đặc tính LUT</span>';
+  document.getElementById('lutChartLegend').innerHTML = legendHtml;
+
+  const W=700, H=220, ML=45, MR=15, MT=15, MB=25, pw=W-ML-MR, ph=H-MT-MB;
+
+  let scaleMaxDuty = 40.0;
+  let scaleMaxVolt = 15.0;
+
+  if (rawLutData && rawLutData.length > 0) {
+    let actualMaxDuty = Math.max(...rawLutData.map(d => parseFloat(d.duty) || 0), 1.0);
+    let actualMaxVolt = Math.max(...rawLutData.map(d => parseFloat(d.volt) || 0), 1.0);
+    scaleMaxDuty = actualMaxDuty;
+    scaleMaxVolt = actualMaxVolt;
+  } else if (lutVGrid.length > 0 && lutDGrid.length > 0) {
+    scaleMaxDuty = Math.max(...lutDGrid, 1.0);
+    scaleMaxVolt = Math.max(...lutVGrid, 1.0);
+  }
+
+  const sampleCount = rawLutData.length > 0 ? rawLutData.length : lutVGrid.length;
+  const rangeStr = `Mẫu dữ liệu: ${sampleCount} | Max Duty: ${scaleMaxDuty.toFixed(1)}% | Max V: ${scaleMaxVolt.toFixed(1)}V`;
+  document.getElementById('chartLutRange').textContent = rangeStr;
+
+  if (gridGroup) {
+    let gridHtml = '';
+    for (let i = 0; i <= 4; i++) {
+      let vVal = (scaleMaxVolt * i / 4);
+      let y = (MT + ph - (vVal / scaleMaxVolt) * ph).toFixed(1);
+      gridHtml += `<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+      gridHtml += `<text x="${ML-6}" y="${Number(y)+4}" font-size="10" text-anchor="end">${vVal.toFixed(1)}V</text>`;
+    }
+    for (let i = 0; i <= 5; i++) {
+      let dVal = (scaleMaxDuty * i / 5);
+      let x = (ML + (dVal / scaleMaxDuty) * pw).toFixed(1);
+      gridHtml += `<line x1="${x}" y1="${MT}" x2="${x}" y2="${MT+ph}" stroke="var(--line-soft)" stroke-dasharray="3 3"/>`;
+      gridHtml += `<text x="${x}" y="${H-6}" font-size="10" text-anchor="middle">${dVal.toFixed(2)}%</text>`;
+    }
+    gridGroup.innerHTML = gridHtml;
+  }
+
+  const px = duty => ML + (duty / scaleMaxDuty) * pw;
+  const py = v => MT + ph - (v / scaleMaxVolt) * ph;
+
+  let labelsHtml = '';
+
+  if (rawLutData && rawLutData.length > 0) {
+    let pathD = rawLutData.map((d, i) => `${i===0?'M':'L'} ${px(parseFloat(d.duty)).toFixed(1)},${py(parseFloat(d.volt)).toFixed(1)}`).join(' ');
+    pathUpEl.setAttribute('d', pathD);
+
+    rawLutData.forEach((d) => {
+      let cx = px(parseFloat(d.duty)), cy = py(parseFloat(d.volt));
+      if (cfg.guide) {
+        labelsHtml += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${(MT+ph).toFixed(1)}" stroke="var(--amber)" stroke-dasharray="2 2" stroke-width="0.8" opacity="0.6"/>`;
+        labelsHtml += `<line x1="${ML}" y1="${cy.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${cy.toFixed(1)}" stroke="var(--amber)" stroke-dasharray="2 2" stroke-width="0.8" opacity="0.6"/>`;
+      }
+      labelsHtml += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3.5" fill="var(--amber)"/>`;
+      if (cfg.labels) {
+        labelsHtml += `<text x="${cx.toFixed(1)}" y="${(cy - 6).toFixed(1)}" font-size="9" font-weight="bold" fill="var(--amber)" text-anchor="middle">${parseFloat(d.volt).toFixed(1)}V</text>`;
+      }
+    });
+  } else if (lutVGrid.length > 0 && lutDGrid.length > 0) {
+    let defaultPath = lutVGrid.map((vVal, i) => {
+      let dVal = lutDGrid[i] || 0;
+      return `${i===0?'M':'L'} ${px(parseFloat(dVal)).toFixed(1)},${py(parseFloat(vVal)).toFixed(1)}`;
+    }).join(' ');
+
+    pathUpEl.setAttribute('d', defaultPath);
+
+    lutVGrid.forEach((vVal, i) => {
+      let dVal = lutDGrid[i] || 0;
+      let cx = px(parseFloat(dVal)), cy = py(parseFloat(vVal));
+      if (cfg.guide) {
+        labelsHtml += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${(MT+ph).toFixed(1)}" stroke="var(--amber)" stroke-dasharray="2 2" stroke-width="0.8" opacity="0.5"/>`;
+      }
+      labelsHtml += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3" fill="var(--amber)"/>`;
+    });
+  } else {
+    pathUpEl.setAttribute('d', '');
+  }
+
+  if (labelsG) labelsG.innerHTML = labelsHtml;
+
+  if (currentZoomChart === 'lut') {
+    syncZoomModal('lut', titleStr, rangeStr, document.getElementById('chartLutSvg').innerHTML, legendHtml);
+  }
+}
+
+async function fetchDataHistory() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const resp = await fetch('/api/data_history', { cache: 'no-store', signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (resp.ok) {
+      const res = await resp.json();
+      const newRecs = res.records || [];
+      newRecs.forEach(r => {
+        if (!measurementData.some(m => m.datetime === r.datetime)) {
+          measurementData.push(r);
+        }
+      });
+      measurementData.sort((a, b) => (b.datetime || '').localeCompare(a.datetime || ''));
+      if (measurementData.length > 200) measurementData = measurementData.slice(0, 200);
+      try { localStorage.setItem('psu_measure_history', JSON.stringify(measurementData)); } catch (_) {}
+      renderDataReport();
+      if (chartData.v.length === 0 && measurementData.length > 0) {
+        const recent = measurementData.slice(0, 20).reverse();
+        chartData.v = recent.map(r => Number(r.v_out) || 0);
+        chartData.i = recent.map(r => Number(r.i_out) || 0);
+        chartData.p = recent.map(r => Number(r.p_out) || 0);
+        if (document.getElementById('page-control').classList.contains('active')) {
+          drawVoltageChart();
+        }
+      }
+    }
+  } catch (e) {
+    renderDataReport();
+  }
+}
+
+function changeHistoryView() {
+  const filter = document.getElementById('historyViewFilter').value;
+  const cardTable = document.getElementById('card-measure-table');
+  const cardStats = document.getElementById('card-stats-group');
+  const cardEvents = document.getElementById('card-events-group');
+
+  if (filter === 'table') {
+    cardTable.style.display = 'block';
+    cardStats.style.display = 'none';
+    cardEvents.style.display = 'none';
+    renderDataReport();
+  } else if (filter === 'stats') {
+    cardTable.style.display = 'none';
+    cardStats.style.display = 'flex';
+    cardEvents.style.display = 'none';
+    renderDataReport();
+  } else if (filter === 'events') {
+    cardTable.style.display = 'none';
+    cardStats.style.display = 'none';
+    cardEvents.style.display = 'block';
+    renderHistory();
+  }
+}
+
+function renderDataReport() {
+  const body = document.getElementById('measureTableBody');
+  if (!body) return;
+
+  if (measurementData.length === 0) {
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted)">Chưa có dữ liệu đo đạc</td></tr>';
+    document.getElementById('stVAvg').textContent = '0.00 V';
+    document.getElementById('stVMax').textContent = '0.00 V';
+    document.getElementById('stVMin').textContent = '0.00 V';
+    document.getElementById('stIAvg').textContent = '0.00 A';
+    document.getElementById('stIMax').textContent = '0.00 A';
+    document.getElementById('stPMax').textContent = '0.0 W';
+    document.getElementById('stTotalSamples').textContent = '0';
+    document.getElementById('stEnergy').textContent = '0.000 Wh';
+    document.getElementById('stTempMax').textContent = '25.0 °C';
+    return;
+  }
+
+  body.innerHTML = measurementData.slice(0, 20).map(d => `
+    <tr>
+      <td style="font-family:var(--mono)">${d.datetime}</td>
+      <td style="font-family:var(--mono); font-weight:600; color:var(--cyan)">${Number(d.v_out || 0).toFixed(2)} V</td>
+      <td style="font-family:var(--mono); color:var(--amber)">${Number(d.i_out || 0).toFixed(2)} A</td>
+      <td style="font-family:var(--mono); color:var(--green)">${Number(d.p_out || 0).toFixed(1)} W</td>
+      <td style="font-family:var(--mono)">${Number(d.temp || 0).toFixed(1)} °C</td>
+      <td style="font-family:var(--mono)">${Number(d.duty || 0).toFixed(2)}%</td>
+      <td><span class="tag ${d.status==='OK'?'login':'alarm'}">${d.status}</span></td>
+    </tr>
+  `).join('');
+
+  const vVals = measurementData.map(d => parseFloat(d.v_out) || 0);
+  const iVals = measurementData.map(d => parseFloat(d.i_out) || 0);
+  const pVals = measurementData.map(d => parseFloat(d.p_out) || 0);
+  const tVals = measurementData.map(d => parseFloat(d.temp) || 0);
+
+  const sumV = vVals.reduce((a, b) => a + b, 0);
+  const sumI = iVals.reduce((a, b) => a + b, 0);
+  const sumP = pVals.reduce((a, b) => a + b, 0);
+
+  const vAvg = (sumV / vVals.length) || 0;
+  const vMax = vVals.length ? Math.max(...vVals) : 0;
+  const vMin = vVals.length ? Math.min(...vVals) : 0;
+
+  const iAvg = (sumI / iVals.length) || 0;
+  const iMax = iVals.length ? Math.max(...iVals) : 0;
+  const pMax = pVals.length ? Math.max(...pVals) : 0;
+  const tempMax = tVals.length ? Math.max(...tVals) : 0;
+
+  const energyWh = (sumP * (1 / 3600));
+
+  document.getElementById('stVAvg').textContent = vAvg.toFixed(2) + ' V';
+  document.getElementById('stVMax').textContent = vMax.toFixed(2) + ' V';
+  document.getElementById('stVMin').textContent = vMin.toFixed(2) + ' V';
+
+  document.getElementById('stIAvg').textContent = iAvg.toFixed(2) + ' A';
+  document.getElementById('stIMax').textContent = iMax.toFixed(2) + ' A';
+  document.getElementById('stPMax').textContent = pMax.toFixed(1) + ' W';
+
+  document.getElementById('stTotalSamples').textContent = measurementData.length;
+  document.getElementById('stEnergy').textContent = energyWh.toFixed(3) + ' Wh';
+  document.getElementById('stTempMax').textContent = tempMax.toFixed(1) + ' °C';
+}
+
+function exportReportCSV() {
+  if (measurementData.length === 0) {
+    alert("Không có dữ liệu để xuất báo cáo!");
+    return;
+  }
+
+  let csv = '\uFEFF';
+  csv += 'BAO CAO DO DAC HE THONG IOT POWER SOURCE (LUU TREN THIET BI)\n';
+  csv += `Ngay xuat,${new Date().toLocaleString()}\n`;
+  csv += `Tong so mau tich luy,${measurementData.length}\n\n`;
+  csv += 'Thoi gian,Dien ap (V),Dong dien (A),Cong suat (W),Nhiet do (C),Duty (%),Trang thai\n';
+
+  measurementData.forEach(d => {
+    csv += `${d.datetime},${d.v_out},${d.i_out},${d.p_out},${d.temp},${d.duty},${d.status}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', `IOT_Power_Source_Report_${Date.now()}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function exportLogsCSV() {
+  if (!historyLogs || historyLogs.length === 0) {
+    alert("Không có nhật ký để xuất báo cáo!");
+    return;
+  }
+
+  let csv = '\uFEFF';
+  csv += 'NHAT KY HE THONG IOT POWER SOURCE (LUU TREN THIET BI)\n';
+  csv += `Ngay xuat,${new Date().toLocaleString()}\n`;
+  csv += `Tong so su kien tich luy,${historyLogs.length}\n\n`;
+  csv += 'Thoi gian,Tai khoan,Loai su kien,Noi dung\n';
+
+  historyLogs.forEach(l => {
+    const cleanMsg = (l.msg || '').replace(/"/g, '""');
+    csv += `${l.t},${l.user},${l.type},"${cleanMsg}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', `IOT_Power_Source_Logs_${Date.now()}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+const controlLayout = document.getElementById('controlLayout');
+const controlDrawer = document.getElementById('controlDrawer');
+const triggerZone = document.getElementById('drawerTriggerZone');
+
+function openControlDrawer() {
+  if (!controlLayout.classList.contains('drawer-open')) {
+    controlLayout.classList.add('drawer-open');
+    setTimeout(() => { 
+      if (document.getElementById('page-control').classList.contains('active')) {
+        drawVoltageChart(); drawPwmChart(); 
+      }
+    }, 200);
+  }
+}
+
+function closeControlDrawer() {
+  if (isDrawerPinned) return; // Không đóng nếu đã được ghim
+  if (controlLayout.classList.contains('drawer-open')) {
+    controlLayout.classList.remove('drawer-open');
+    setTimeout(() => { 
+      if (document.getElementById('page-control').classList.contains('active')) {
+        drawVoltageChart(); drawPwmChart(); 
+      }
+    }, 200);
+  }
+}
+
+function toggleControlDrawer() {
+  if (controlLayout.classList.contains('drawer-open')) {
+    if (isDrawerPinned) togglePinDrawer();
+    closeControlDrawer();
+  } else {
+    openControlDrawer();
+  }
+}
+
+function togglePinDrawer() {
+  isDrawerPinned = !isDrawerPinned;
+  const pinBtn = document.getElementById('pinDrawerBtn');
+  if (!pinBtn) return;
+  if (isDrawerPinned) {
+    pinBtn.innerHTML = '🔒 Đã ghim cố định';
+    pinBtn.classList.add('pinned');
+    openControlDrawer();
+    showToast('Đã ghim cố định Bảng điều khiển!');
+  } else {
+    pinBtn.innerHTML = '📌 Ghim Bảng Điều Khiển';
+    pinBtn.classList.remove('pinned');
+    showToast('Đã bỏ ghim Bảng điều khiển.');
+  }
+}
+
+function setupDrawerMouseEvents() {
+  if (controlDrawer) {
+    controlDrawer.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 868) closeControlDrawer();
+    });
+  }
+  if (triggerZone) {
+    triggerZone.addEventListener('mouseenter', openControlDrawer);
+  }
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.page === id));
+  
+  if (id === 'menu') {
+    renderAdminStatus();
+  } else if (id === 'history') {
+    renderDataReport();
+    renderHistory();
+    fetchDataHistory();
+    fetchLogs();
+  } else if (id === 'autotune') {
+    fetchLutData();
+  } else if (id === 'control') {
+    drawVoltageChart();
+    drawPwmChart();
+  }
+}
+
+function renderModes() {
+  const el = document.getElementById('modeGrid');
+  if (!el) return;
+  el.innerHTML = modes.map(m => `
+    <div class="card mode-card ${m.id === currentMode ? 'selected' : ''}" onclick="selectMode('${m.id}')">
+      <div class="mode-icon">${m.icon}</div>
+      <div class="mode-title">${m.title}</div>
+      <div class="mode-desc">${m.desc}</div>
+    </div>`).join('');
+}
+
+function renderAdminStatus() {
+  const grid = document.getElementById('adminStatusGrid');
+  const countEl = document.getElementById('onlineAdminCount');
+  if (!grid) return;
+
+  const onlineList = Array.isArray(currentOnlineUsers) ? currentOnlineUsers : [];
+  const onlineCount = ALL_ADMINS.filter(a => onlineList.includes(a)).length;
+
+  if (countEl) {
+    countEl.textContent = `${onlineCount}/4 Online`;
+    countEl.style.color = onlineCount > 0 ? 'var(--green)' : 'var(--muted)';
+    countEl.style.background = onlineCount > 0 ? 'var(--green-soft)' : 'var(--panel2)';
+  }
+
+  grid.innerHTML = ALL_ADMINS.map(a => {
+    const isOnline = onlineList.includes(a);
+    const isSelf = (a === currentUser);
+    const icon = '👤';
+
+    return `
+      <div class="admin-card ${isOnline ? 'online' : ''} ${isSelf ? 'self' : ''}">
+        <div class="admin-info-left">
+          <div class="admin-avatar">${icon}</div>
+          <div>
+            <div style="font-weight:700; font-size:13px; display:flex; align-items:center; gap:6px">
+              ${a}
+              ${isSelf ? '<span style="font-size:10px; background:var(--cyan-soft); color:var(--cyan); padding:1px 6px; border-radius:10px; font-weight:700">Bạn</span>' : ''}
+            </div>
+            <div style="font-size:11px; color:var(--muted)">Quản trị viên</div>
+          </div>
+        </div>
+        <div class="admin-status-badge ${isOnline ? 'online' : 'offline'}">
+          <span class="live-dot" style="background:${isOnline ? 'var(--green)' : 'var(--muted-dim)'}"></span>
+          ${isOnline ? 'Online' : 'Offline'}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function fetchLogs() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const resp = await fetch('/api/logs', { cache: 'no-store', signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (resp.ok) {
+      const res = await resp.json();
+      historyLogs = (res.logs || []).slice(0, 20);
+      renderHistory();
+    }
+  } catch (e) {
+    renderHistory();
+  }
+}
+
+function renderHistory() {
+  const body = document.getElementById('historyBody');
+  if (!body) return;
+
+  const filterSelect = document.getElementById('logTypeFilter');
+  const filterVal = filterSelect ? filterSelect.value : 'all';
+
+  let filtered = historyLogs;
+  if (filterVal === 'action') {
+    filtered = historyLogs.filter(h => h.type === 'action');
+  } else if (filterVal === 'login') {
+    filtered = historyLogs.filter(h => h.type === 'login');
+  } else if (filterVal === 'alarm') {
+    filtered = historyLogs.filter(h => h.type === 'alarm' || (h.msg && (h.msg.includes('NHIỆT') || h.msg.includes('Cảnh báo'))));
+  }
+
+  if (filtered.length === 0) {
+    body.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Không có nhật ký thuộc loại này</td></tr>';
+    return;
+  }
+
+  body.innerHTML = filtered.map(h => {
+    let tagClass = 'action';
+    let tagText = 'Thao tác';
+    if (h.type === 'login') { tagClass = 'login'; tagText = 'Đăng nhập'; }
+    else if (h.type === 'alarm') { tagClass = 'alarm'; tagText = 'Cảnh báo'; }
+
+    return `
+      <tr>
+        <td style="font-family:var(--mono)">${h.t}</td>
+        <td><strong>${h.user}</strong></td>
+        <td><span class="tag ${tagClass}">${tagText}</span></td>
+        <td>${h.msg}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function checkAutoLoginSession() {
+  const savedUser = localStorage.getItem('psu_user');
+  if (savedUser) {
+    const uInput = document.getElementById('u');
+    if (uInput) uInput.value = savedUser;
+  }
+  // Luôn hiển thị giao diện đăng nhập ban đầu
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function loadStoredHistory() {
+  try {
+    const savedRecs = localStorage.getItem('psu_measure_history');
+    if (savedRecs) {
+      const parsed = JSON.parse(savedRecs);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        measurementData = parsed;
+      }
+    }
+  } catch (_) {}
+
+  try {
+    const savedLogs = localStorage.getItem('psu_logs_history');
+    if (savedLogs) {
+      const parsedLogs = JSON.parse(savedLogs);
+      if (Array.isArray(parsedLogs) && parsedLogs.length > 0) {
+        historyLogs = parsedLogs;
+      }
+    }
+  } catch (_) {}
+}
+
+loadStoredHistory();
+initSvgGrids();
+renderAdminStatus();
+checkAutoLoginSession();
+
+// --- SERVICE WORKER REGISTRATION ---
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('PWA ServiceWorker ready:', reg.scope))
+      .catch(err => console.log('SW reg note:', err));
+  });
+}
+
+
+
+// Keepalive heartbeat for Windows desktop app
+setInterval(function() {
+  try {
+    fetch('/api/heartbeat', { cache: 'no-store' }).catch(function(){});
+  } catch(e) {}
+}, 3000);
+
+// Graceful desktop app shutdown on window close
+window.addEventListener('beforeunload', function() {
+  try {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/exit');
+    } else {
+      fetch('/api/exit', { method: 'POST', keepalive: true }).catch(function(){});
+    }
+  } catch(e) {}
+});
+</script>
+</body>
+</html>
